@@ -4,6 +4,8 @@
  *
  */
 
+#ifndef MAIN
+#define MAIN
 /*********************
  *      INCLUDES
  *********************/
@@ -15,6 +17,13 @@
 #include "lvgl/lvgl.h"
 #include "lvgl/examples/lv_examples.h"
 #include "lvgl/demos/lv_demos.h"
+
+
+// #include "assets/img_lv_demo_music_icon_1.h"
+
+// #include "lvgl/src/widgets/lv_btn.h"
+// #include "lvgl/src/core/lv_event.h"
+
 #if USE_SDL
   #define SDL_MAIN_HANDLED /*To fix SDL's "undefined reference to WinMain" issue*/
   #include <SDL2/SDL.h>
@@ -56,13 +65,19 @@ static bool end_tick = false; /* flag to terminate thread */
  *   GLOBAL FUNCTIONS
  **********************/
 
+static void set_angle(void * obj, int32_t v)
+{
+    lv_arc_set_value(obj, v);
+}
+
+
 /*********************
  *      DEFINES
  *********************/
 
 /**********************
  *      TYPEDEFS
- **********************/
+**********************/
 
 /**********************
  *      VARIABLES
@@ -191,13 +206,113 @@ int main(int argc, char **argv)
 //  lv_example_flex_3();
 //  lv_example_label_1();
 
-  lv_demo_widgets();
+  // lv_demo_widgets();
 //  lv_demo_keypad_encoder();
 //  lv_demo_benchmark();
 //  lv_demo_stress();
 //  lv_demo_music();
+lv_cluster();
 
 //  user_image_demo();
+  // lv_color_t display_bg_color = LV_COLOR_MAKE(19, 20, 21);
+
+  // lv_obj_t * bg = lv_obj_create(lv_scr_act());
+  // lv_style_t bg_style;
+  // lv_style_init(&bg_style);
+  // lv_style_set_radius(&bg_style, 0);
+  // lv_style_set_bg_color(&bg_style, display_bg_color);
+  // lv_obj_add_style(bg, &bg_style, LV_PART_MAIN | LV_STATE_DEFAULT);
+  // lv_obj_set_pos(bg, 0, 0);
+  // lv_obj_set_size(bg, 800, 600);
+    
+  // lv_obj_t * circle = lv_obj_create(lv_scr_act());
+  // lv_style_t style; 
+  // lv_style_init(&style);
+  // lv_style_set_radius(&style, LV_RADIUS_CIRCLE);
+  // // lv_style_set_bg_color(&style, display_bg_color);
+  // lv_obj_add_style(circle, &style, LV_PART_MAIN | LV_STATE_DEFAULT);
+  // lv_obj_set_pos(circle, 10, 10);
+  // lv_obj_set_size(circle, 100, 100);
+
+  // lv_disp_set_bg_color(NULL, display_bg_color);
+
+
+  // //bar
+  //   static lv_style_t style_bg;
+  // static lv_style_t style_indic;
+  // lv_style_init(&style_bg);
+  // lv_style_set_border_color(&style_bg, lv_palette_main(LV_PALETTE_BLUE));
+  // lv_style_set_border_width(&style_bg, 2);
+  // lv_style_set_pad_all(&style_bg, 6); /*To make the indicator smaller*/
+  // lv_style_set_radius(&style_bg, 6);
+  // lv_style_set_anim_time(&style_bg, 1000);
+  // lv_style_init(&style_indic);
+  // lv_style_set_bg_opa(&style_indic, LV_OPA_COVER);
+  // lv_style_set_bg_color(&style_indic, lv_palette_main(LV_PALETTE_BLUE));
+  // lv_style_set_radius(&style_indic, 3);
+  // lv_obj_t * bar = lv_bar_create(lv_scr_act());
+  // lv_obj_remove_style_all(bar); /*To have a clean start*/
+  // lv_obj_add_style(bar, &style_bg, 0);
+  // lv_obj_add_style(bar, &style_indic, LV_PART_INDICATOR);
+  // lv_obj_set_size(bar, 200, 20);
+  // lv_obj_center(bar);
+  // lv_bar_set_value(bar, 100, LV_ANIM_ON);
+  
+
+
+  //arc
+  // static lv_style_t style_indic;
+  // lv_style_init(&style_indic);
+  // lv_style_set_bg_color(&style_indic, lv_palette_lighten(LV_PALETTE_RED, 3));
+  // lv_style_set_bg_grad_color(&style_indic, lv_palette_main(LV_PALETTE_RED));
+  // lv_style_set_bg_grad_dir(&style_indic, LV_GRAD_DIR_HOR);
+  // // lv_style_set_arc_color(&style_indic, lv_palette_main(LV_PALETTE_GREEN));
+
+
+  // static lv_style_t style_indic_pr;
+  //   lv_style_init(&style_indic_pr);
+  //   lv_style_set_shadow_color(&style_indic_pr, lv_palette_main(LV_PALETTE_RED));
+  //   lv_style_set_shadow_width(&style_indic_pr, 10);
+  //   lv_style_set_shadow_spread(&style_indic_pr, 3);
+
+  // lv_obj_t * obj = lv_slider_create(lv_scr_act());
+  //   lv_obj_add_style(obj, &style_indic, LV_PART_INDICATOR);
+  //   lv_obj_add_style(obj, &style_indic_pr, LV_PART_INDICATOR | LV_STATE_PRESSED);
+  //   lv_slider_set_value(obj, 70, LV_ANIM_OFF);
+  //   lv_obj_center(obj);
+
+
+  // lv_obj_t * arc = lv_arc_create(lv_scr_act());
+  // lv_obj_add_style(arc, &style_indic, LV_PART_INDICATOR);
+  // lv_obj_add_style(arc, &style_indic_pr, LV_PART_INDICATOR | LV_STATE_PRESSED);
+  // lv_arc_set_value(arc, 70);
+  // static lv_style_t style_arc;
+  // lv_style_init(&style_arc);
+  // LV_IMG_DECLARE(arccc);
+  // lv_obj_t *icon;
+  // icon = lv_img_create(lv_scr_act());
+  // lv_img_set_src(icon, &arccc);
+  // lv_style_set_bg_color(&style_arc, lv_palette_main(LV_PALETTE_GREEN));
+  // lv_style_set_arc_img_src(&style_arc, icon);
+  // lv_obj_remove_style(arc, NULL, LV_PART_MAIN | LV_STATE_DEFAULT);
+  // lv_obj_remove_style(arc, NULL, LV_PART_KNOB);
+  // lv_obj_set_pos(arc, 350, 350);
+  // lv_obj_add_style(arc, &style_indic, LV_PART_INDICATOR);
+  // lv_obj_add_style(arc, &style_indic_pr, LV_PART_INDICATOR | LV_STATE_PRESSED);
+  // lv_arc_set_value(arc, 100);
+  // lv_arc_set_mode(arc, LV_ARC_MODE_REVERSE);
+
+
+
+  // lv_anim_t a;
+  // lv_anim_init(&a);
+  // lv_anim_set_var(&a, arc);
+  // lv_anim_set_exec_cb(&a, set_angle);
+  // lv_anim_set_time(&a, 1000);
+  // lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+  // lv_anim_set_repeat_delay(&a, 500);
+  // lv_anim_set_values(&a, 0, 100);
+  // lv_anim_start(&a);
 
   while(1) {
     /* Periodically call the lv_task handler.
@@ -287,6 +402,7 @@ static void hal_init(void)
   disp_drv.flush_cb = lv_x11_flush;
   disp_drv.hor_res = DISP_HOR_RES;
   disp_drv.ver_res = DISP_VER_RES;
+
   disp_drv.antialiasing = 1;
 
   disp = lv_disp_drv_register(&disp_drv);
@@ -348,3 +464,5 @@ static void* tick_thread(void *data) {
 
   return NULL;
 }
+
+#endif

@@ -128,8 +128,8 @@
 #endif
 
 #if USE_MONITOR
-#  define MONITOR_HOR_RES     480
-#  define MONITOR_VER_RES     320
+#  define MONITOR_HOR_RES     1280
+#  define MONITOR_VER_RES     720
 
 /* Scale window by this factor (useful when simulating small screens) */
 #  define MONITOR_ZOOM        1
@@ -208,10 +208,10 @@
 #if USE_X11
   /* Simulated screen resolution  */
   #ifndef DISP_HOR_RES
-    #define DISP_HOR_RES   480
+    #define DISP_HOR_RES   1280
   #endif
   #ifndef DISP_VER_RES
-    #define DISP_VER_RES   320
+    #define DISP_VER_RES   720
   #endif
 #endif // USE_X11
 
