@@ -32,6 +32,9 @@ static void cl_draw_background(void);
 static lv_obj_t * cl_create_speed_circle(lv_obj_t*);
 static lv_obj_t * cl_create_speed_arc(lv_obj_t *);
 static lv_obj_t * cl_create_speed_label(lv_obj_t *);
+static lv_obj_t * cl_create_power_circle(lv_obj_t *);
+static lv_obj_t * cl_create_power_arc(lv_obj_t *);
+static lv_obj_t * cl_create_power_label(lv_obj_t *);
 
 /**********************
  *      MACROS

@@ -3,6 +3,12 @@
         "x11.h": "c",
         "img_lv_demo_music_icon_1.h": "c",
         "lv_demos.h": "c",
-        "lv_conf_internal.h": "c"
+        "lv_conf_internal.h": "c",
+        "cmath": "c",
+        "functional": "c",
+        "random": "c",
+        "*.tcc": "c",
+        "type_traits": "c",
+        "lv_drv_conf.h": "c"
     }
 }

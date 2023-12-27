@@ -17,9 +17,6 @@
 /*********************
  *      DEFINES
  *********************/
-static int32_t cl_speed_arc_size = 300;
-static int32_t cl_speed_arc_inner_cirle_size = 240;
-static int32_t cl_speed_arc_width = 30;
 
 /**********************
  *  STATIC PROTOTYPES
@@ -29,10 +26,17 @@ static void set_speed(void * obj, int32_t v);
 static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent);
 static lv_obj_t * cl_create_speed_arc(lv_obj_t * parent);
 static lv_obj_t * cl_create_speed_label(lv_obj_t * parent);
+static lv_obj_t * cl_create_power_circle(lv_obj_t * parent);
+static lv_obj_t * cl_create_power_arc(lv_obj_t * parent);
+static lv_obj_t * cl_create_power_label(lv_obj_t * parent);
+
 
 /**********************
  *  STATIC VARIABLES
  **********************/
+static int32_t cl_speed_arc_size = 300;
+static int32_t cl_speed_arc_inner_cirle_size = 240;
+static int32_t cl_speed_arc_width = 30;
 
 
 
@@ -52,6 +56,16 @@ static void cl_speed_arc_set_speed(void *obj, int32_t v)
     lv_label_set_text(obj, text);
 }
 
+static void cl_line_movement(void * obj, int32_t v)
+{
+    lv_obj_set_pos(obj, 500 + v, 100 + 10 * v);
+}
+
+static void cl_line_movement2(void * obj, int32_t v)
+{
+    lv_obj_set_pos(obj, 450 - v, 100 + 10 * v);
+}
+
 // creating the speed arc and returns the base obj pointer
 static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent)
 {
@@ -67,7 +81,7 @@ static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent)
     lv_style_set_bg_grad_stop(&bg_grad_style, (cl_speed_arc_size / 2));
     lv_style_set_bg_grad_dir(&bg_grad_style, LV_GRAD_DIR_HOR);
     lv_obj_set_size(bg_grad, cl_speed_arc_size, cl_speed_arc_size);
-    lv_obj_set_pos(bg_grad, 20, 100);
+    lv_obj_set_pos(bg_grad, 50, 150);
     lv_obj_clear_flag(bg_grad, LV_OBJ_FLAG_SCROLLABLE);
 
     // inner circle
@@ -190,6 +204,103 @@ static lv_obj_t * cl_create_speed_label(lv_obj_t * parent)
     return speed;
 }
 
+
+static lv_obj_t * cl_create_power_circle(lv_obj_t * parent)
+{
+    //background circle
+    lv_color_t cyan = lv_color_make(1, 233, 189);
+    lv_obj_t * bg_grad = lv_obj_create(lv_scr_act());
+    static lv_style_t bg_grad_style;
+    lv_style_init(&bg_grad_style);
+    lv_style_set_radius(&bg_grad_style, LV_RADIUS_CIRCLE);
+    lv_obj_add_style(bg_grad, &bg_grad_style, LV_PART_MAIN);
+    lv_style_set_bg_color(&bg_grad_style, lv_palette_main(LV_PALETTE_RED));
+    lv_style_set_bg_grad_color(&bg_grad_style, lv_palette_main(LV_PALETTE_YELLOW));
+    lv_style_set_bg_grad_stop(&bg_grad_style, 250);
+    lv_style_set_bg_grad_dir(&bg_grad_style, LV_GRAD_DIR_HOR);
+    lv_obj_set_size(bg_grad, cl_speed_arc_size, cl_speed_arc_size);
+    lv_obj_set_pos(bg_grad, 680, 150);
+    lv_obj_clear_flag(bg_grad, LV_OBJ_FLAG_SCROLLABLE);
+
+    // inner circle
+    lv_obj_t *inner_circle = lv_obj_create(bg_grad);
+    static lv_style_t inner_circle_style;
+    lv_obj_remove_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
+    lv_style_init(&inner_circle_style);
+    lv_style_set_bg_color(&inner_circle_style, lv_palette_main(LV_PALETTE_BLUE_GREY));
+    lv_obj_add_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
+    lv_style_set_radius(&inner_circle_style, LV_RADIUS_CIRCLE);
+    lv_obj_center(inner_circle);
+    lv_obj_set_size(inner_circle, cl_speed_arc_inner_cirle_size, cl_speed_arc_inner_cirle_size);
+    lv_style_set_outline_pad(&inner_circle_style, -2);
+    lv_style_set_outline_color(&inner_circle_style, lv_palette_main(LV_PALETTE_BLUE_GREY));
+
+    return bg_grad;
+}
+
+static lv_obj_t * cl_create_power_arc(lv_obj_t * parent)
+{
+    static lv_style_t style_indic;
+    lv_style_init(&style_indic);
+    lv_style_set_arc_width(&style_indic, cl_speed_arc_width);
+    lv_style_set_arc_rounded(&style_indic, false);
+    lv_style_set_arc_color(&style_indic, lv_palette_main(LV_PALETTE_BLUE_GREY));
+
+    lv_obj_t * arc = lv_arc_create(parent);
+    lv_obj_remove_style(arc, NULL, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_remove_style(arc, NULL, LV_PART_KNOB);
+    lv_arc_set_bg_angles(arc, 0, 360);
+    lv_arc_set_rotation(arc, 400);
+    lv_obj_add_style(arc, &style_indic, LV_PART_INDICATOR);
+    lv_obj_set_size(arc, cl_speed_arc_size, cl_speed_arc_size);
+    lv_obj_center(arc);
+    lv_arc_set_value(arc, 100);
+
+    //arc border
+    lv_obj_t * arc_border = lv_obj_create(parent);
+    static lv_style_t arc_border_style;
+    lv_style_init(&arc_border_style);
+    lv_style_set_bg_opa(&arc_border_style, 0);
+    lv_style_set_outline_width(&arc_border_style, 3);
+    lv_style_set_outline_color(&arc_border_style, lv_palette_main(LV_PALETTE_RED));
+    lv_style_set_outline_pad(&arc_border_style, 1);
+    lv_style_set_radius(&arc_border_style, LV_RADIUS_CIRCLE);
+    lv_obj_add_style(arc_border, &arc_border_style, LV_PART_MAIN);
+    lv_obj_set_size(arc_border, cl_speed_arc_size, cl_speed_arc_size);
+    lv_obj_center(arc_border);
+
+    return arc;
+}
+
+
+static lv_obj_t * cl_create_power_label(lv_obj_t * parent)
+{
+    //power border
+    lv_obj_t * power_border = lv_obj_create(parent);
+    static lv_style_t power_border_style;
+    lv_style_init(&power_border_style);
+    lv_style_set_bg_opa(&power_border_style, 0);
+    lv_style_set_outline_width(&power_border_style, 3);
+    lv_style_set_outline_color(&power_border_style, lv_palette_main(LV_PALETTE_GREEN));
+    lv_style_set_outline_pad(&power_border_style, 1);
+    lv_style_set_radius(&power_border_style, LV_RADIUS_CIRCLE);
+    lv_obj_add_style(power_border, &power_border_style, LV_PART_MAIN);
+    lv_obj_set_size(power_border, cl_speed_arc_size / 2, cl_speed_arc_size / 2);
+    lv_obj_center(power_border);
+
+    //speed number
+    static lv_style_t power_style;
+    lv_style_init(&power_style);
+    lv_style_set_text_color(&power_style, lv_palette_lighten(LV_PALETTE_GREEN, 5));
+    lv_style_set_text_font(&power_style, &lv_font_montserrat_48);
+    lv_obj_t * power = lv_label_create(parent);
+    lv_label_set_text(power, "100");
+    lv_obj_center(power);
+    lv_obj_add_style(power, &power_style, LV_PART_MAIN);
+
+    return power;
+}
+
 // setting background color and gradient
 void cl_draw_background(void)
 {
@@ -199,7 +310,7 @@ void cl_draw_background(void)
     lv_style_set_bg_grad_color(&bg_style, lv_palette_main(LV_PALETTE_NONE));
     lv_style_set_bg_grad_dir(&bg_style, LV_GRAD_DIR_HOR);
     lv_style_set_bg_grad_stop(&bg_style, 450);
-    lv_obj_add_style(lv_scr_act(), &bg_style, LV_PART_MAIN);
+    lv_obj_add_style(lv_scr_act(), &bg_style, 0);
 }
 
 
@@ -210,9 +321,12 @@ void lv_cluster(void)
     cl_draw_background();
 
     //arc gradient
-    lv_obj_t * icon = cl_create_speed_circle(lv_scr_act());
-    lv_obj_t * speed_arc = cl_create_speed_arc(icon);
-    lv_obj_t * speed_label = cl_create_speed_label(icon);
+    lv_obj_t * speed_bg = cl_create_speed_circle(lv_scr_act());
+    lv_obj_t * speed_arc = cl_create_speed_arc(speed_bg);
+    lv_obj_t * speed_label = cl_create_speed_label(speed_bg);
+    lv_obj_t * power_bg = cl_create_power_circle(lv_scr_act());
+    lv_obj_t * power_arc = cl_create_power_arc(power_bg);
+    lv_obj_t * power_label = cl_create_power_label(power_bg);
 
     // //arc img (gradient)
     // LV_IMG_DECLARE(ring_transparent);
@@ -225,18 +339,77 @@ void lv_cluster(void)
     // static lv_area_t area;
     // lv_draw_mask_fade_init(fade, );
 
+    static lv_point_t line_points[] = { {0, 0}, {5, 50}};
+
+    /*Create style*/
+    static lv_style_t style_line;
+    lv_style_init(&style_line);
+    lv_style_set_line_width(&style_line, 2);
+    lv_style_set_line_color(&style_line, lv_palette_lighten(LV_PALETTE_BLUE, 5));
+    lv_style_set_line_rounded(&style_line, true);
+
+    /*Create a line and apply the new style*/
+    lv_obj_t * line1;
+    line1 = lv_line_create(lv_scr_act());
+    lv_line_set_points(line1, line_points, 2);     /*Set the points*/
+    lv_obj_add_style(line1, &style_line, LV_PART_MAIN);     /*Set the points*/
+    lv_obj_set_pos(line1, 500, 100);
+
+    static lv_point_t line_points2[] = {{5, 0}, {0, 50}};
+    lv_obj_t * line2;
+    line2 = lv_line_create(lv_scr_act());
+    lv_line_set_points(line2, line_points2, 2);
+    lv_obj_add_style(line2, &style_line, LV_PART_MAIN);
+    lv_obj_set_pos(line2, 450, 100);
+
+    // lv_area_t area;
+    // lv_obj_get_coords(speed_arc, &area);
+    // lv_draw_mask_fade_param_t *mask_param = lv_mem_buf_get(sizeof(lv_draw_mask_fade_param_t));
+    // lv_draw_mask_fade_init(mask_param, &area, LV_OPA_20, area.y1, LV_OPA_90, area.y2);
+    // int mask_id = lv_draw_mask_add(mask_param, NULL);
+
+    // lv_area_t roller_coords;
+    // lv_obj_get_coords(power_label, &roller_coords);
+
+    // lv_area_t rect_area;
+    // rect_area.x1 = 1;
+    // rect_area.x2 = 1;
+    // rect_area.y1 = 4;
+    // // rect_area.y2 = roller_coords.y1 + (lv_obj_get_height(obj) - font_h - line_space) / 2;
+    // rect_area.y2 = 4;
+
+    // int32_t mask_top_id = -1;
+    // lv_draw_mask_fade_param_t * fade_mask_top = lv_mem_buf_get(sizeof(lv_draw_mask_fade_param_t));
+    // lv_draw_mask_fade_init(fade_mask_top, &rect_area, LV_OPA_TRANSP, rect_area.y1, LV_OPA_COVER, rect_area.y2);
+    // mask_top_id = lv_draw_mask_add(fade_mask_top, NULL);
 
 
-    //arc animation
+
+    // fade_mask_top = lv_draw_mask_remove_id(mask_top_id);
+    // lv_draw_mask_free_param(fade_mask_top);
+    // lv_mem_buf_release(fade_mask_top);
+
+    //speed arc animation
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, speed_arc);
     lv_anim_set_exec_cb(&a, cl_speed_arc_set_angle);
-    lv_anim_set_time(&a, 5000);
+    lv_anim_set_time(&a, 3000);
     lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
     lv_anim_set_repeat_delay(&a, 500);
     lv_anim_set_values(&a, 100, 42);
     lv_anim_start(&a);
+
+    //power arc animation
+    lv_anim_t c;
+    lv_anim_init(&c);
+    lv_anim_set_var(&c, power_arc);
+    lv_anim_set_exec_cb(&c, cl_speed_arc_set_angle);
+    lv_anim_set_time(&c, 3000);
+    lv_anim_set_repeat_count(&c, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&c, 500);
+    lv_anim_set_values(&c, 100, 42);
+    lv_anim_start(&c);
 
 
     //speed text animation
@@ -244,9 +417,43 @@ void lv_cluster(void)
     lv_anim_init(&b);
     lv_anim_set_var(&b, speed_label);
     lv_anim_set_exec_cb(&b, cl_speed_arc_set_speed);
-    lv_anim_set_time(&b, 5000);
+    lv_anim_set_time(&b, 3000);
     lv_anim_set_repeat_count(&b, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
     lv_anim_set_repeat_delay(&b, 500);
     lv_anim_set_values(&b, 0, 200);
     lv_anim_start(&b);
+
+    //power text animation
+    lv_anim_t d;
+    lv_anim_init(&d);
+    lv_anim_set_var(&d, power_label);
+    lv_anim_set_exec_cb(&d, cl_speed_arc_set_speed);
+    lv_anim_set_time(&d, 3000);
+    lv_anim_set_repeat_count(&d, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&d, 500);
+    lv_anim_set_values(&d, 0, 120);
+    lv_anim_start(&d);
+
+    //line animation
+    lv_anim_t f;
+    lv_anim_init(&f);
+    lv_anim_set_var(&f, line1);
+    lv_anim_set_exec_cb(&f, cl_line_movement);
+    lv_anim_set_time(&f, 1000);
+    lv_anim_set_repeat_count(&f, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&f, 0);
+    lv_anim_set_values(&f, 0, 20);
+    lv_anim_start(&f);
+
+    //line animation
+    lv_anim_t s;
+    lv_anim_init(&s);
+    lv_anim_set_var(&s, line2);
+    lv_anim_set_exec_cb(&s, cl_line_movement2);
+    lv_anim_set_time(&s, 1000);
+    lv_anim_set_repeat_count(&s, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&s, 0);
+    lv_anim_set_values(&s, 0, 20);
+    lv_anim_start(&s);
+
 }
