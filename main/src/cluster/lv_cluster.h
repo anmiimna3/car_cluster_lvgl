@@ -28,6 +28,10 @@ extern "C" {
  **********************/
 void lv_cluster(void);
 void lv_cluster_close(void);
+static void cl_draw_background(void);
+static lv_obj_t * cl_create_speed_circle(lv_obj_t*);
+static lv_obj_t * cl_create_speed_arc(lv_obj_t *);
+static lv_obj_t * cl_create_speed_label(lv_obj_t *);
 
 /**********************
  *      MACROS
