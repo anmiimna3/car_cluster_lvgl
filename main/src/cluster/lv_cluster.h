@@ -35,6 +35,8 @@ static lv_obj_t * cl_create_speed_label(lv_obj_t *);
 static lv_obj_t * cl_create_power_circle(lv_obj_t *);
 static lv_obj_t * cl_create_power_arc(lv_obj_t *);
 static lv_obj_t * cl_create_power_label(lv_obj_t *);
+static lv_obj_t * cl_create_middle_part(lv_obj_t *);
+static lv_obj_t * cl_create_line(lv_obj_t *, lv_coord_t, lv_coord_t, lv_point_t[2]);
 
 /**********************
  *      MACROS
