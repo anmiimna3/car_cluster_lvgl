@@ -2,9 +2,10 @@
 #include "stdlib.h"
 #include <math.h>
 #include <stdio.h>
+#include <time.h>
 /**
  * @file lv_cluster.c
- * 
+ *
 */
 
 /*********************
@@ -17,6 +18,11 @@
 /*********************
  *      DEFINES
  *********************/
+
+#define CLOCK_X 5
+#define CLOCK_Y 5
+#define CLOCK_SHADOW_X_OFFSET 2
+#define CLOCK_SHADOW_Y_OFFSET 2
 
 /**********************
  *  STATIC PROTOTYPES
@@ -32,13 +38,14 @@ static lv_obj_t * cl_create_power_label(lv_obj_t * parent);
 static lv_obj_t * cl_create_middle_part(lv_obj_t * parent);
 static lv_obj_t * cl_create_line(lv_obj_t * parent, lv_coord_t x, lv_coord_t y, lv_point_t points[2]);
 static lv_obj_t * cl_create_car_mode_roller(lv_obj_t * parent);
+static void update_clock_label(lv_timer_t *timer);
+static lv_obj_t * cl_create_clock(lv_obj_t * parent);
 static void cl_mask_event_cb(lv_event_t * e);
 
 /**********************
  * TODO
  **********************/
 static lv_obj_t * cl_create_line_animation(lv_obj_t * parent);
-static lv_obj_t * cl_create_clock(lv_obj_t * parent);
 static lv_obj_t * cl_create_gear_mode(lv_obj_t * parent);
 static lv_obj_t * cl_create_driving_mode(lv_obj_t * parent);
 
@@ -49,6 +56,8 @@ static lv_obj_t * cl_create_driving_mode(lv_obj_t * parent);
 static int32_t cl_speed_arc_size = 300;
 static int32_t cl_speed_arc_inner_cirle_size = 240;
 static int32_t cl_speed_arc_width = 30;
+static lv_obj_t * Clock;
+static lv_obj_t * Clock_shadow;
 
 
 
@@ -165,26 +174,26 @@ static lv_obj_t * cl_create_speed_arc(lv_obj_t * parent)
     lv_obj_t * counter_50 = lv_label_create(parent);
     lv_label_set_text(counter_50, "50");
     lv_obj_set_pos(counter_50, 20, 95);
-    lv_obj_add_style(counter_50, &counter_style, LV_PART_MAIN); 
+    lv_obj_add_style(counter_50, &counter_style, LV_PART_MAIN);
 
     // //arc counter 100
     lv_obj_t * counter_100 = lv_label_create(parent);
     lv_label_set_text(counter_100, "100");
     lv_obj_set_pos(counter_100, 70, 30);
-    lv_obj_add_style(counter_100, &counter_style, LV_PART_MAIN); 
+    lv_obj_add_style(counter_100, &counter_style, LV_PART_MAIN);
 
     // //arc counter 150
     lv_obj_t * counter_150 = lv_label_create(parent);
     lv_label_set_text(counter_150, "150");
     lv_obj_set_pos(counter_150, 160, 30);
-    lv_obj_add_style(counter_150, &counter_style, LV_PART_MAIN); 
+    lv_obj_add_style(counter_150, &counter_style, LV_PART_MAIN);
 
     // //arc counter 200
     lv_obj_t * counter_200 = lv_label_create(parent);
     lv_label_set_text(counter_200, "200");
     lv_obj_set_pos(counter_200, 210, 95);
-    lv_obj_add_style(counter_200, &counter_style, LV_PART_MAIN); 
-    
+    lv_obj_add_style(counter_200, &counter_style, LV_PART_MAIN);
+
     return arc;
 }
 
@@ -344,7 +353,7 @@ static lv_obj_t * cl_create_middle_part(lv_obj_t * parent)
     lv_line_set_points(line2, line_points2, 2);
     lv_obj_add_style(line2, &style_line, LV_PART_MAIN);
 
-    
+
     LV_IMG_DECLARE(car);
     lv_obj_t * car_pic = lv_img_create(back_ground);
     lv_img_set_src(car_pic, &car);
@@ -399,6 +408,61 @@ static lv_obj_t * cl_create_car_mode_roller(lv_obj_t * parent){
     lv_obj_set_pos(roller1, -5, 180);
 
     return roller1;
+
+}
+
+static void update_clock_label(lv_timer_t *timer)
+{
+    // Function to update display clock's value
+    time_t rawtime;
+    struct tm * timeinfo;
+    time( &rawtime );
+    timeinfo = localtime( &rawtime );
+    lv_label_set_text_fmt(Clock, "%02d:%02d:%02d", timeinfo->tm_hour, timeinfo->tm_min,
+        timeinfo->tm_sec);
+    lv_label_set_text_fmt(Clock_shadow, "%02d:%02d:%02d", timeinfo->tm_hour, timeinfo->tm_min,
+        timeinfo->tm_sec);
+}
+
+static lv_obj_t * cl_create_clock(lv_obj_t * parent){
+    // Function to create a display Time using Label widget
+    static lv_style_t style_shadow;
+    lv_style_init(&style_shadow);
+    lv_style_set_text_opa(&style_shadow, LV_OPA_50);
+    lv_style_set_text_color(&style_shadow, lv_color_black());
+    lv_style_set_text_font(&style_shadow, &lv_font_montserrat_28);
+
+    static lv_style_t style;
+    lv_style_init(&style);
+    lv_style_set_bg_opa(&style, 0);
+    lv_style_set_text_color(&style, lv_palette_darken(LV_PALETTE_BLUE, 4));
+    lv_style_set_text_font(&style, &lv_font_montserrat_28);
+
+    Clock_shadow = lv_label_create(parent);
+    lv_obj_remove_style_all(Clock_shadow);
+    lv_obj_add_style(Clock_shadow, &style_shadow, 0);
+    lv_obj_set_size(Clock_shadow, 150, 20);
+    lv_obj_set_pos(Clock_shadow, CLOCK_X + CLOCK_SHADOW_X_OFFSET, CLOCK_Y + CLOCK_SHADOW_Y_OFFSET);
+    // lv_obj_align_to(Clock_shadow, Clock, LV_ALIGN_TOP_LEFT, 2, 2);
+
+    Clock = lv_label_create(parent);
+    lv_obj_remove_style_all(Clock);
+    lv_obj_add_style(Clock, &style, 0);
+    lv_obj_set_size(Clock, 150, 20);
+    lv_obj_set_pos(Clock, CLOCK_X, CLOCK_Y);
+
+    time_t rawtime;
+    struct tm * timeinfo;
+    time( &rawtime );
+    timeinfo = localtime( &rawtime );
+    lv_label_set_text_fmt(Clock, "%02d:%02d:%02d", timeinfo->tm_hour, timeinfo->tm_min,
+        timeinfo->tm_sec);
+    lv_label_set_text_fmt(Clock_shadow, "%02d:%02d:%02d", timeinfo->tm_hour, timeinfo->tm_min,
+        timeinfo->tm_sec);
+
+    lv_timer_create(update_clock_label, 1000, Clock);
+
+    return Clock;
 
 }
 
@@ -506,6 +570,7 @@ void lv_cluster(void)
     lv_obj_t * line3 = cl_create_line(middle_part, 160, 0, line_points);
     lv_obj_t * line4 = cl_create_line(middle_part, 80, 0, line_points2);
     lv_obj_t * roller = cl_create_car_mode_roller(lv_scr_act());
+    cl_create_clock(lv_scr_act());
 
 
     // //arc img (gradient)
@@ -534,7 +599,7 @@ void lv_cluster(void)
     // lv_obj_add_style(line1, &style_line, LV_PART_MAIN);     /*Set the points*/
     // lv_obj_set_pos(line1, 500, 100);
 
-    
+
     // lv_obj_t * line2;
     // line2 = lv_line_create(lv_scr_act());
     // lv_line_set_points(line2, line_points2, 2);
