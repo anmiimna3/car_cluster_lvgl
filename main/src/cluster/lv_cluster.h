@@ -37,6 +37,8 @@ static lv_obj_t * cl_create_power_arc(lv_obj_t *);
 static lv_obj_t * cl_create_power_label(lv_obj_t *);
 static lv_obj_t * cl_create_middle_part(lv_obj_t *);
 static lv_obj_t * cl_create_line(lv_obj_t *, lv_coord_t, lv_coord_t, lv_point_t[2]);
+static lv_obj_t * cl_create_car_mode_roller(lv_obj_t *);
+static void cl_mask_event_cb(lv_event_t *);
 
 /**********************
  *      MACROS
