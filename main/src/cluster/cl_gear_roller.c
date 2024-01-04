@@ -65,6 +65,16 @@ static void cl_gear_roller_move_cb(cl_gear_roller_t * obj, int32_t v)
         obj->mid = obj->left;
         obj->left = temp;
     }
+    if (v == 80 || v == -80){
+        lv_obj_set_style_text_color(obj->left, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN);
+        lv_obj_set_style_text_color(obj->right, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN);
+        lv_obj_set_style_text_color(obj->mid, lv_color_white(), LV_PART_MAIN);
+
+        lv_obj_set_style_text_font(obj->left, &lv_font_montserrat_34, LV_PART_MAIN);
+        lv_obj_set_style_text_font(obj->right, &lv_font_montserrat_34, LV_PART_MAIN);
+        lv_obj_set_style_text_font(obj->mid, &lv_font_montserrat_48, LV_PART_MAIN);
+
+    }
 }
 
 
@@ -82,26 +92,22 @@ cl_gear_roller_t * cl_gear_roller_create(lv_obj_t * parent, lv_coord_t x, lv_coo
     lv_label_set_text(R_label, "R");
     lv_obj_center(R_label);
     lv_obj_set_pos(R_label, -80, 0);
-    lv_obj_set_style_text_color(R_label, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_font(R_label, &lv_font_montserrat_48, LV_PART_MAIN);
+    lv_obj_set_style_text_color(R_label, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN);
+    lv_obj_set_style_text_font(R_label, &lv_font_montserrat_34, LV_PART_MAIN);
 
     lv_obj_t * D_label = lv_label_create(base);
     lv_label_set_text(D_label, "D");
-    // int D_x = (x / 2) - (40 / 2);
-    // lv_obj_set_pos(D_label, D_x, 0);
     lv_obj_center(D_label);
     lv_obj_set_style_text_color(D_label, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_text_font(D_label, &lv_font_montserrat_48, LV_PART_MAIN);
-
-
 
     lv_obj_t * N_label = lv_label_create(base);
     lv_label_set_text(N_label, "N");
     lv_obj_set_align(N_label, LV_ALIGN_CENTER);
     lv_obj_center(N_label);
     lv_obj_set_pos(N_label, 80, 0);
-    lv_obj_set_style_text_color(N_label, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_text_font(N_label, &lv_font_montserrat_48, LV_PART_MAIN);
+    lv_obj_set_style_text_color(N_label, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN);
+    lv_obj_set_style_text_font(N_label, &lv_font_montserrat_34, LV_PART_MAIN);
 
     lv_obj_t * selected_border = lv_obj_create(base);
     lv_obj_remove_style_all(selected_border);
@@ -141,6 +147,9 @@ void cl_gear_roller_set_selected(cl_gear_roller_t * gear_roller, int i)
     lv_anim_set_var(&a, gear_roller);
     lv_anim_set_time(&a, 1000);
     
+    lv_obj_set_style_text_color(gear_roller->mid, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN);
+    lv_obj_set_style_text_font(gear_roller->mid, &lv_font_montserrat_34, LV_PART_MAIN);
+
     if ( (selected - i) % 3 == 1 ){
         lv_anim_set_values(&a, 0, 80);
         lv_anim_start(&a);
