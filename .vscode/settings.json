@@ -9,6 +9,8 @@
         "random": "c",
         "*.tcc": "c",
         "type_traits": "c",
-        "lv_drv_conf.h": "c"
-    }
+        "lv_drv_conf.h": "c",
+        "lv_label.h": "c"
+    },
+    "cmake.configureOnOpen": false
 }

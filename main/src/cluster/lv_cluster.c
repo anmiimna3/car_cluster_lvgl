@@ -1,8 +1,3 @@
-#include <string.h>
-#include "stdlib.h"
-#include <math.h>
-#include <stdio.h>
-#include <time.h>
 /**
  * @file lv_cluster.c
  *
@@ -12,7 +7,12 @@
  *      INCLUDES
  *********************/
 #include "lv_cluster.h"
-
+#include <string.h>
+#include "stdlib.h"
+#include <math.h>
+#include <stdio.h>
+#include <time.h>
+#include "cl_gear_roller.h"
 
 
 /*********************
@@ -54,12 +54,13 @@ static lv_obj_t * cl_create_clock(lv_obj_t * parent);
 static lv_obj_t * cl_create_upper_neon(lv_obj_t * parent);
 static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent);
 static void cl_mask_event_cb(lv_event_t * e);
+static cl_gear_roller_t * cl_create_gear_mode(lv_obj_t * parent);
+
 
 /**********************
  * TODO
  **********************/
 static lv_obj_t * cl_create_line_animation(lv_obj_t * parent);
-static lv_obj_t * cl_create_gear_mode(lv_obj_t * parent);
 static lv_obj_t * cl_create_driving_mode(lv_obj_t * parent);
 
 
@@ -77,6 +78,12 @@ static lv_obj_t * Clock_shadow;
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
+
+static void cl_chage_gear(void *obj, int32_t v)
+{
+    cl_gear_roller_set_selected(obj, v);
+}
+
 
 static void cl_speed_arc_set_angle(void * obj, int32_t v)
 {
@@ -609,6 +616,17 @@ static void cl_mask_event_cb(lv_event_t * e)
     }
 }
 
+//creating gear roller
+static cl_gear_roller_t * cl_create_gear_mode(lv_obj_t * parent)
+{
+    cl_gear_roller_t * gear_roller = cl_gear_roller_create(lv_scr_act(), 200, 100);
+    lv_obj_center(gear_roller->parent);
+    lv_obj_set_pos(gear_roller->parent, -5, 250);
+    return gear_roller;
+}
+
+
+
 // setting background color and gradient
 void cl_draw_background(void)
 {
@@ -647,7 +665,7 @@ void lv_cluster(void)
     lv_obj_t * upper_neon = cl_create_upper_neon(lv_scr_act());
     lv_obj_t * lower_neon = cl_create_lower_neon(lv_scr_act());
     cl_create_clock(lv_scr_act());
-
+    cl_gear_roller_t * gear_parts = cl_create_gear_mode(lv_scr_act());
 
     // //arc img (gradient)
     // LV_IMG_DECLARE(ring_transparent);
@@ -800,4 +818,17 @@ void lv_cluster(void)
     lv_anim_set_values(&h, -20, 20);
     lv_anim_set_playback_delay(&h, 500);
     lv_anim_start(&h);
+
+
+    //gear change animation
+    lv_anim_t gear;
+    lv_anim_init(&gear);
+    lv_anim_set_var(&gear, gear_parts);
+    lv_anim_set_exec_cb(&gear, cl_chage_gear);
+    lv_anim_set_time(&gear, 6000);
+    lv_anim_set_repeat_count(&gear, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&gear, 0);
+    lv_anim_set_values(&gear, 0, 2);
+    lv_anim_set_playback_delay(&gear, 500);
+    lv_anim_start(&gear);
 }
