@@ -1,8 +1,3 @@
-#include <string.h>
-#include "stdlib.h"
-#include <math.h>
-#include <stdio.h>
-#include <time.h>
 /**
  * @file lv_cluster.c
  *
@@ -12,7 +7,12 @@
  *      INCLUDES
  *********************/
 #include "lv_cluster.h"
-
+#include <string.h>
+#include "stdlib.h"
+#include <math.h>
+#include <stdio.h>
+#include <time.h>
+#include "cl_gear_roller.h"
 
 
 /*********************
@@ -41,12 +41,13 @@ static lv_obj_t * cl_create_car_mode_roller(lv_obj_t * parent);
 static void update_clock_label(lv_timer_t *timer);
 static lv_obj_t * cl_create_clock(lv_obj_t * parent);
 static void cl_mask_event_cb(lv_event_t * e);
+static cl_gear_roller_t * cl_create_gear_mode(lv_obj_t * parent);
+
 
 /**********************
  * TODO
  **********************/
 static lv_obj_t * cl_create_line_animation(lv_obj_t * parent);
-static lv_obj_t * cl_create_gear_mode(lv_obj_t * parent);
 static lv_obj_t * cl_create_driving_mode(lv_obj_t * parent);
 
 
@@ -535,6 +536,19 @@ static void cl_mask_event_cb(lv_event_t * e)
     }
 }
 
+
+static cl_gear_roller_t * cl_create_gear_mode(lv_obj_t * parent)
+{
+    cl_gear_roller_t * gear_roller = cl_gear_roller_create(lv_scr_act(), 200, 100);
+    lv_obj_center(gear_roller->parent);
+    lv_obj_set_pos(gear_roller->parent, -5, 250);
+
+
+    return gear_roller;
+}
+
+
+
 // setting background color and gradient
 void cl_draw_background(void)
 {
@@ -571,7 +585,7 @@ void lv_cluster(void)
     lv_obj_t * line4 = cl_create_line(middle_part, 80, 0, line_points2);
     lv_obj_t * roller = cl_create_car_mode_roller(lv_scr_act());
     cl_create_clock(lv_scr_act());
-
+    cl_gear_roller_t * gear_parts = cl_create_gear_mode(lv_scr_act());
 
     // //arc img (gradient)
     // LV_IMG_DECLARE(ring_transparent);
