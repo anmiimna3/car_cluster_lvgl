@@ -19,7 +19,7 @@
  *      DEFINES
  *********************/
 // Clock defines
-#define CLOCK_X 45
+#define CLOCK_X 43
 #define CLOCK_Y 15
 #define CLOCK_SHADOW_X_OFFSET 2
 #define CLOCK_SHADOW_Y_OFFSET 2
@@ -27,7 +27,7 @@
 #define CLOCK_WIDTH 200
 
 // Neon defines
-#define NEON_LINE_WIDTH 15
+#define NEON_LINE_WIDTH 10
 #define NEON_UPPER_X_OFFSET 10
 #define NEON_UPPER_Y_OFFSET 30
 #define NEON_UPPER_LEFT_CURVE_POINT {0, 150}
