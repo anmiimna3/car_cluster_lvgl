@@ -34,6 +34,41 @@
  *   GLOBAL FUNCTIONS
  **********************/
 
+static void cl_gear_roller_move_cb(cl_gear_roller_t * obj, int32_t v)
+{
+    if (v > -40)
+        lv_obj_set_pos(obj->left, -80 + v, 0);
+    else if (v == -40)
+        lv_obj_set_pos(obj->left, 120, 0);
+    else
+        lv_obj_set_pos(obj->left, 160 + v, 0);
+    
+    lv_obj_set_pos(obj->mid, v, 0);
+    
+    if (v < 40)
+        lv_obj_set_pos(obj->right, 80 + v, 0);
+    else if (v == 40)
+        lv_obj_set_pos(obj->right, -120, 0);
+    else
+        lv_obj_set_pos(obj->right, -160 + v, 0);
+
+    if (v == -80){
+        cl_gear_roller_t * temp = obj->left;
+        obj->left = obj->mid;
+        obj->mid = obj->right;
+        obj->right = temp;
+    }
+
+    if (v == 80){
+        cl_gear_roller_t * temp = obj->right;
+        obj->right = obj->mid;
+        obj->mid = obj->left;
+        obj->left = temp;
+    }
+}
+
+
+
 cl_gear_roller_t * cl_gear_roller_create(lv_obj_t * parent, lv_coord_t x, lv_coord_t y)
 {
     cl_gear_roller_t * obj = malloc(sizeof(cl_gear_roller_t));
@@ -68,12 +103,53 @@ cl_gear_roller_t * cl_gear_roller_create(lv_obj_t * parent, lv_coord_t x, lv_coo
     lv_obj_set_style_text_color(N_label, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_text_font(N_label, &lv_font_montserrat_48, LV_PART_MAIN);
 
+    lv_obj_t * selected_border = lv_obj_create(base);
+    lv_obj_remove_style_all(selected_border);
+    lv_obj_set_style_border_width(selected_border, 2, LV_PART_MAIN);
+    lv_obj_set_style_border_color(selected_border, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_size(selected_border, 55, 55);
+    lv_obj_center(selected_border);
 
-    obj->R = R_label;
-    obj->D = D_label;
-    obj->N = N_label;
-    obj->selected = 0;
+
+    obj->left = R_label;
+    obj->mid = D_label;
+    obj->right = N_label;
+    obj->selected = 1;
     obj->parent = base;
 
     return obj;
+}
+
+
+void cl_gear_roller_set_selected(cl_gear_roller_t * gear_roller, int i)
+{
+    if (i > 2 || i < 0){
+        printf("not in range!\n");
+        return;
+    }
+    int selected = gear_roller->selected;
+
+    if (i == selected){
+        printf("we are there!\n");
+        return;
+    }
+
+
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_exec_cb(&a, cl_gear_roller_move_cb);
+    lv_anim_set_var(&a, gear_roller);
+    lv_anim_set_time(&a, 1000);
+    
+    if ( (selected - i) % 3 == 1 ){
+        lv_anim_set_values(&a, 0, 80);
+        lv_anim_start(&a);
+    }
+
+    else{
+        lv_anim_set_values(&a, 0, -80);
+        lv_anim_start(&a);
+    }
+    
+    gear_roller->selected = i;
 }

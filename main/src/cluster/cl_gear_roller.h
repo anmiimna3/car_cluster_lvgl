@@ -10,6 +10,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include <stdio.h>
 #include <stdlib.h>
 // #include "../lv_conf_internal.h"
 #include "lvgl/src/core/lv_obj.h"
@@ -22,9 +23,9 @@
 
 typedef struct{
     lv_obj_t * parent;
-    lv_obj_t * R;
-    lv_obj_t * D;
-    lv_obj_t * N;
+    lv_obj_t * left;
+    lv_obj_t * mid;
+    lv_obj_t * right;
     int selected;
 
 } cl_gear_roller_t;
