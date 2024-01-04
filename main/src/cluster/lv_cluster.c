@@ -19,12 +19,21 @@
  *      DEFINES
  *********************/
 
-#define CLOCK_X 50
+#define CLOCK_X 45
 #define CLOCK_Y 5
 #define CLOCK_SHADOW_X_OFFSET 2
 #define CLOCK_SHADOW_Y_OFFSET 2
 #define CLOCK_HEIGHT 20
 #define CLOCK_WIDTH 200
+#define NEOW_LINE_WIDTH 20
+#define NEON_UPPER_X_OFFSET 10
+#define NEON_UPPER_Y_OFFSET 50
+#define NEON_UPPER_LEFTLINE_FIRST_POINT {10, 0}
+#define NEON_UPPER_LEFTLINE_SECOND_POINT {250, 0}
+#define NEON_UPPER_MIDLINE_FIRST_POINT {350, 80}
+#define NEON_UPPER_MIDLINE_SECOND_POINT {630, 80}
+#define NEON_UPPER_RIGHTLINE_FIRST_POINT {730, 0}
+#define NEON_UPPER_RIGHTLINE_SECOND_POINT {980, 0}
 
 /**********************
  *  STATIC PROTOTYPES
@@ -42,6 +51,8 @@ static lv_obj_t * cl_create_line(lv_obj_t * parent, lv_coord_t x, lv_coord_t y, 
 static lv_obj_t * cl_create_car_mode_roller(lv_obj_t * parent);
 static void update_clock_label(lv_timer_t *timer);
 static lv_obj_t * cl_create_clock(lv_obj_t * parent);
+static lv_obj_t * cl_create_upper_neon(lv_obj_t * parent);
+static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent);
 static void cl_mask_event_cb(lv_event_t * e);
 
 /**********************
@@ -467,6 +478,68 @@ static lv_obj_t * cl_create_clock(lv_obj_t * parent){
 
 }
 
+static lv_obj_t * cl_create_upper_neon(lv_obj_t * parent)
+{
+
+    static lv_style_t back_ground_style;
+    lv_style_init(&back_ground_style);
+    lv_style_set_bg_opa(&back_ground_style, LV_OPA_TRANSP);
+
+    lv_obj_t * back_ground = lv_obj_create(parent);
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_add_style(back_ground, &back_ground_style, LV_PART_MAIN);
+    lv_obj_set_size(back_ground, 1000, 150);
+    lv_obj_align_to(back_ground, NULL, LV_ALIGN_TOP_MID, 0, 0);
+
+    static lv_style_t style, *style_line = &style;
+    lv_style_init(style_line);
+    lv_style_set_line_width(style_line, NEOW_LINE_WIDTH);
+    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_DEEP_PURPLE, 2));
+    lv_style_set_line_rounded(style_line, true);
+
+    static lv_point_t line_points[] = {NEON_UPPER_LEFTLINE_FIRST_POINT, NEON_UPPER_LEFTLINE_SECOND_POINT,
+                                        NEON_UPPER_MIDLINE_FIRST_POINT, NEON_UPPER_MIDLINE_SECOND_POINT,
+                                        NEON_UPPER_RIGHTLINE_FIRST_POINT, NEON_UPPER_RIGHTLINE_SECOND_POINT};
+    lv_obj_t * line = lv_line_create(back_ground);
+    lv_line_set_points(line, line_points, 6);
+    lv_obj_add_style(line, style_line, 0);
+    lv_obj_align_to(line, NULL, LV_ALIGN_TOP_MID, NEON_UPPER_X_OFFSET, NEON_UPPER_Y_OFFSET);
+
+    return back_ground;
+
+}
+
+static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent)
+{
+    static lv_style_t back_ground_style;
+    lv_style_init(&back_ground_style);
+    lv_style_set_bg_opa(&back_ground_style, LV_OPA_TRANSP);
+
+    lv_obj_t * back_ground = lv_obj_create(parent);
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_add_style(back_ground, &back_ground_style, LV_PART_MAIN);
+    lv_obj_set_size(back_ground, 1000, 150);
+    lv_obj_align_to(back_ground, NULL, LV_ALIGN_BOTTOM_MID, 0, 0);
+
+    static lv_style_t style, *style_line = &style;
+    lv_style_init(style_line);
+    lv_style_set_line_width(style_line, NEOW_LINE_WIDTH);
+    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_DEEP_PURPLE, 2));
+    lv_style_set_line_rounded(style_line, true);
+
+    static lv_point_t line_points[] = {NEON_UPPER_LEFTLINE_FIRST_POINT, NEON_UPPER_LEFTLINE_SECOND_POINT,
+                                        NEON_UPPER_MIDLINE_FIRST_POINT, NEON_UPPER_MIDLINE_SECOND_POINT,
+                                        NEON_UPPER_RIGHTLINE_FIRST_POINT, NEON_UPPER_RIGHTLINE_SECOND_POINT};
+    lv_obj_t * line = lv_line_create(back_ground);
+    lv_line_set_points(line, line_points, 6);
+    lv_obj_add_style(line, style_line, 0);
+    lv_obj_align_to(line, NULL, LV_ALIGN_TOP_MID, NEON_UPPER_X_OFFSET, NEON_UPPER_Y_OFFSET);
+
+    return back_ground;
+}
+
 static void cl_mask_event_cb(lv_event_t * e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -571,6 +644,8 @@ void lv_cluster(void)
     lv_obj_t * line3 = cl_create_line(middle_part, 160, 0, line_points);
     lv_obj_t * line4 = cl_create_line(middle_part, 80, 0, line_points2);
     lv_obj_t * roller = cl_create_car_mode_roller(lv_scr_act());
+    lv_obj_t * upper_neon = cl_create_upper_neon(lv_scr_act());
+    lv_obj_t * lower_neon = cl_create_lower_neon(lv_scr_act());
     cl_create_clock(lv_scr_act());
 
 
