@@ -18,22 +18,37 @@
 /*********************
  *      DEFINES
  *********************/
-
+// Clock defines
 #define CLOCK_X 45
-#define CLOCK_Y 5
+#define CLOCK_Y 15
 #define CLOCK_SHADOW_X_OFFSET 2
 #define CLOCK_SHADOW_Y_OFFSET 2
 #define CLOCK_HEIGHT 20
 #define CLOCK_WIDTH 200
-#define NEOW_LINE_WIDTH 20
+
+// Neon defines
+#define NEON_LINE_WIDTH 15
 #define NEON_UPPER_X_OFFSET 10
-#define NEON_UPPER_Y_OFFSET 50
-#define NEON_UPPER_LEFTLINE_FIRST_POINT {10, 0}
+#define NEON_UPPER_Y_OFFSET 30
+#define NEON_UPPER_LEFT_CURVE_POINT {0, 150}
+#define NEON_UPPER_LEFTLINE_FIRST_POINT {100, 0}
 #define NEON_UPPER_LEFTLINE_SECOND_POINT {250, 0}
-#define NEON_UPPER_MIDLINE_FIRST_POINT {350, 80}
-#define NEON_UPPER_MIDLINE_SECOND_POINT {630, 80}
-#define NEON_UPPER_RIGHTLINE_FIRST_POINT {730, 0}
-#define NEON_UPPER_RIGHTLINE_SECOND_POINT {980, 0}
+#define NEON_UPPER_MIDLINE_FIRST_POINT {350, 60}
+#define NEON_UPPER_MIDLINE_SECOND_POINT {620, 60}
+#define NEON_UPPER_RIGHTLINE_FIRST_POINT {720, 0}
+#define NEON_UPPER_RIGHTLINE_SECOND_POINT {870, 0}
+#define NEON_UPPER_RIGHT_CURVE_POINT {975, 150}
+#define NEON_LOWER_X_OFFSET 10
+#define NEON_LOWER_Y_OFFSET 10
+#define NEON_LOWER_LEFT_CURVE_POINT {0, 0}
+#define NEON_LOWER_LEFTLINE_FIRST_POINT {70, 90}
+#define NEON_LOWER_LEFTLINE_SECOND_POINT {250, 90}
+#define NEON_LOWER_MIDLINE_FIRST_POINT {350, 180}
+#define NEON_LOWER_MIDLINE_SECOND_POINT {620, 180}
+#define NEON_LOWER_RIGHTLINE_FIRST_POINT {720, 90}
+#define NEON_LOWER_RIGHTLINE_SECOND_POINT {910, 90}
+#define NEON_LOWER_RIGHT_CURVE_POINT {975, 0}
+
 
 /**********************
  *  STATIC PROTOTYPES
@@ -496,20 +511,22 @@ static lv_obj_t * cl_create_upper_neon(lv_obj_t * parent)
     lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_remove_style_all(back_ground);
     lv_obj_add_style(back_ground, &back_ground_style, LV_PART_MAIN);
-    lv_obj_set_size(back_ground, 1000, 150);
+    lv_obj_set_size(back_ground, 1000, 200);
     lv_obj_align_to(back_ground, NULL, LV_ALIGN_TOP_MID, 0, 0);
 
     static lv_style_t style, *style_line = &style;
     lv_style_init(style_line);
-    lv_style_set_line_width(style_line, NEOW_LINE_WIDTH);
-    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_DEEP_PURPLE, 2));
+    lv_style_set_line_width(style_line, NEON_LINE_WIDTH);
+    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_RED, 4));
     lv_style_set_line_rounded(style_line, true);
 
-    static lv_point_t line_points[] = {NEON_UPPER_LEFTLINE_FIRST_POINT, NEON_UPPER_LEFTLINE_SECOND_POINT,
+    static lv_point_t line_points[] = { NEON_UPPER_LEFT_CURVE_POINT,
+                                        NEON_UPPER_LEFTLINE_FIRST_POINT, NEON_UPPER_LEFTLINE_SECOND_POINT,
                                         NEON_UPPER_MIDLINE_FIRST_POINT, NEON_UPPER_MIDLINE_SECOND_POINT,
-                                        NEON_UPPER_RIGHTLINE_FIRST_POINT, NEON_UPPER_RIGHTLINE_SECOND_POINT};
+                                        NEON_UPPER_RIGHTLINE_FIRST_POINT, NEON_UPPER_RIGHTLINE_SECOND_POINT,
+                                        NEON_UPPER_RIGHT_CURVE_POINT};
     lv_obj_t * line = lv_line_create(back_ground);
-    lv_line_set_points(line, line_points, 6);
+    lv_line_set_points(line, line_points, 8);
     lv_obj_add_style(line, style_line, 0);
     lv_obj_align_to(line, NULL, LV_ALIGN_TOP_MID, NEON_UPPER_X_OFFSET, NEON_UPPER_Y_OFFSET);
 
@@ -527,22 +544,24 @@ static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent)
     lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_remove_style_all(back_ground);
     lv_obj_add_style(back_ground, &back_ground_style, LV_PART_MAIN);
-    lv_obj_set_size(back_ground, 1000, 150);
+    lv_obj_set_size(back_ground, 1000, 200);
     lv_obj_align_to(back_ground, NULL, LV_ALIGN_BOTTOM_MID, 0, 0);
 
     static lv_style_t style, *style_line = &style;
     lv_style_init(style_line);
-    lv_style_set_line_width(style_line, NEOW_LINE_WIDTH);
-    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_DEEP_PURPLE, 2));
+    lv_style_set_line_width(style_line, NEON_LINE_WIDTH);
+    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_RED, 4));
     lv_style_set_line_rounded(style_line, true);
 
-    static lv_point_t line_points[] = {NEON_UPPER_LEFTLINE_FIRST_POINT, NEON_UPPER_LEFTLINE_SECOND_POINT,
-                                        NEON_UPPER_MIDLINE_FIRST_POINT, NEON_UPPER_MIDLINE_SECOND_POINT,
-                                        NEON_UPPER_RIGHTLINE_FIRST_POINT, NEON_UPPER_RIGHTLINE_SECOND_POINT};
+    static lv_point_t line_points[] = {NEON_LOWER_LEFT_CURVE_POINT,
+                                        NEON_LOWER_LEFTLINE_FIRST_POINT, NEON_LOWER_LEFTLINE_SECOND_POINT,
+                                        NEON_LOWER_MIDLINE_FIRST_POINT, NEON_LOWER_MIDLINE_SECOND_POINT,
+                                        NEON_LOWER_RIGHTLINE_FIRST_POINT, NEON_LOWER_RIGHTLINE_SECOND_POINT,
+                                        NEON_LOWER_RIGHT_CURVE_POINT};
     lv_obj_t * line = lv_line_create(back_ground);
-    lv_line_set_points(line, line_points, 6);
+    lv_line_set_points(line, line_points, 8);
     lv_obj_add_style(line, style_line, 0);
-    lv_obj_align_to(line, NULL, LV_ALIGN_TOP_MID, NEON_UPPER_X_OFFSET, NEON_UPPER_Y_OFFSET);
+    lv_obj_align_to(line, NULL, LV_ALIGN_TOP_MID, NEON_LOWER_X_OFFSET, NEON_LOWER_Y_OFFSET);
 
     return back_ground;
 }
