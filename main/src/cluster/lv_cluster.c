@@ -19,10 +19,12 @@
  *      DEFINES
  *********************/
 
-#define CLOCK_X 5
+#define CLOCK_X 50
 #define CLOCK_Y 5
 #define CLOCK_SHADOW_X_OFFSET 2
 #define CLOCK_SHADOW_Y_OFFSET 2
+#define CLOCK_HEIGHT 20
+#define CLOCK_WIDTH 200
 
 /**********************
  *  STATIC PROTOTYPES
@@ -442,15 +444,14 @@ static lv_obj_t * cl_create_clock(lv_obj_t * parent){
     Clock_shadow = lv_label_create(parent);
     lv_obj_remove_style_all(Clock_shadow);
     lv_obj_add_style(Clock_shadow, &style_shadow, 0);
-    lv_obj_set_size(Clock_shadow, 150, 20);
-    lv_obj_set_pos(Clock_shadow, CLOCK_X + CLOCK_SHADOW_X_OFFSET, CLOCK_Y + CLOCK_SHADOW_Y_OFFSET);
-    // lv_obj_align_to(Clock_shadow, Clock, LV_ALIGN_TOP_LEFT, 2, 2);
+    lv_obj_set_size(Clock_shadow, CLOCK_WIDTH, CLOCK_HEIGHT);
 
     Clock = lv_label_create(parent);
     lv_obj_remove_style_all(Clock);
     lv_obj_add_style(Clock, &style, 0);
-    lv_obj_set_size(Clock, 150, 20);
-    lv_obj_set_pos(Clock, CLOCK_X, CLOCK_Y);
+    lv_obj_set_size(Clock, CLOCK_WIDTH, CLOCK_HEIGHT);
+    lv_obj_align_to(Clock, NULL, LV_ALIGN_TOP_MID, CLOCK_X, CLOCK_Y);
+    lv_obj_align_to(Clock_shadow, Clock, LV_ALIGN_TOP_LEFT, CLOCK_SHADOW_X_OFFSET, CLOCK_SHADOW_Y_OFFSET);
 
     time_t rawtime;
     struct tm * timeinfo;
