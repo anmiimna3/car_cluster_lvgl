@@ -124,6 +124,153 @@ static void cl_line_movement2(void * obj, int32_t v)
     lv_obj_set_pos(obj, 95 - v, 10 * v);
 }
 
+static void cl_indicator_set_off(void * obj, int32_t v)
+{
+    lv_obj_set_style_bg_opa(obj, v*255, LV_STATE_DEFAULT);
+}
+
+static lv_obj_t * cl_create_indc_bg(lv_obj_t * parent)
+{
+    static lv_style_t back_ground_style;
+    lv_color_t white = lv_color_make(0, 0, 0);
+    lv_style_init(&back_ground_style);
+    lv_style_set_bg_opa(&back_ground_style, LV_OPA_COVER);
+
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_add_style(back_ground, &back_ground_style, LV_PART_MAIN);
+    lv_obj_set_size(back_ground, 1024, 60);
+    lv_obj_set_pos(back_ground, 0, 0);
+    lv_style_set_bg_color(&back_ground_style, white);
+}
+
+
+static lv_obj_t * cl_create_indc_bg_activate(lv_obj_t * parent, int pos, char* color)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 50, 40);
+    lv_obj_set_pos(back_ground, pos+5, 50);
+
+    if (color == "green")
+        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_GREEN), LV_STATE_DEFAULT);
+    if (color == "blue")
+        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
+    if (color == "gray")
+        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_GREY), LV_STATE_DEFAULT);
+    if (color == "red")
+        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_RED), LV_STATE_DEFAULT);
+
+    return back_ground;
+}
+
+static lv_obj_t * cl_create_indc_highLight(lv_obj_t * parent)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 60, 40);
+    lv_obj_set_pos(back_ground, 720, 50);
+
+    LV_IMG_DECLARE(carLight);
+    lv_obj_t * highLight_pic = lv_img_create(back_ground);
+    lv_img_set_src(highLight_pic, &carLight);
+    lv_obj_center(highLight_pic);
+    return back_ground;
+}
+
+static lv_obj_t * cl_create_indc_normalLight(lv_obj_t * parent)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 60, 40);
+    lv_obj_set_pos(back_ground, 120, 50);
+
+    LV_IMG_DECLARE(commonLight);
+    lv_obj_t * commonLight_pic = lv_img_create(back_ground);
+    lv_img_set_src(commonLight_pic, &commonLight);
+    lv_obj_center(commonLight_pic);
+    return back_ground;
+}
+
+static lv_obj_t * cl_create_indc_openDoor(lv_obj_t * parent)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 60, 40);
+    lv_obj_set_pos(back_ground, 180, 50);
+
+    LV_IMG_DECLARE(OpenDoorIndicators);
+    lv_obj_t * openDoor_pic = lv_img_create(back_ground);
+    lv_img_set_src(openDoor_pic, &OpenDoorIndicators);
+    lv_obj_center(openDoor_pic);
+    return back_ground;
+}
+
+static lv_obj_t * cl_create_indc_batteryCharging(lv_obj_t * parent)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 60, 40);
+    lv_obj_set_pos(back_ground, 240, 50);
+
+    LV_IMG_DECLARE(batteryCharging);
+    lv_obj_t * batteryCharging_pic = lv_img_create(back_ground);
+    lv_img_set_src(batteryCharging_pic, &batteryCharging);
+    lv_obj_center(batteryCharging_pic);
+    // lv_obj_set_style_opa(batteryCharging_pic, LV_OPA_30, LV_STATE_DEFAULT);
+    return back_ground;
+}
+
+static lv_obj_t * cl_create_indc_seatbelt(lv_obj_t * parent)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 60, 40);
+    lv_obj_set_pos(back_ground, 780, 50);
+
+    LV_IMG_DECLARE(seatbelt);
+    lv_obj_t * seatBelt_pic = lv_img_create(back_ground);
+    lv_img_set_src(seatBelt_pic, &seatbelt);
+    lv_obj_center(seatBelt_pic);
+    return back_ground;
+}
+
+static lv_obj_t * cl_create_indc_brakeSystem(lv_obj_t * parent)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 60, 40);
+    lv_obj_set_pos(back_ground, 840, 50);
+
+    LV_IMG_DECLARE(handbreak);
+    lv_obj_t * handBreak_pic = lv_img_create(back_ground);
+    lv_img_set_src(handBreak_pic, &handbreak);
+    lv_obj_center(handBreak_pic);
+    return back_ground;
+}
+
+static lv_obj_t * cl_create_indc_checkEngine(lv_obj_t * parent)
+{
+    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
+    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(back_ground);
+    lv_obj_set_size(back_ground, 60, 40);
+    lv_obj_set_pos(back_ground, 650, 10);
+
+    LV_IMG_DECLARE(rightBlinker);
+    lv_obj_t * highLight_pic = lv_img_create(back_ground);
+    lv_img_set_src(highLight_pic, &rightBlinker);
+    lv_obj_center(highLight_pic);
+    return back_ground;
+}
 
 // creating the speed arc and returns the base obj pointer
 static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent)
@@ -698,6 +845,26 @@ void lv_cluster(void)
     cl_create_clock(lv_scr_act());
     cl_gear_roller_t * gear_parts = cl_create_gear_mode(lv_scr_act());
 
+
+        lv_obj_t * highLightActivate = cl_create_indc_bg_activate(lv_scr_act(), 720, "blue");
+    lv_obj_t * normalLightActivate = cl_create_indc_bg_activate(lv_scr_act(), 120, "green");
+    lv_obj_t * openDoorActivate = cl_create_indc_bg_activate(lv_scr_act(), 180, "gray");
+    lv_obj_t * seatbeltActivate = cl_create_indc_bg_activate(lv_scr_act(), 780, "red");
+    lv_obj_t * batteryActivate = cl_create_indc_bg_activate(lv_scr_act(), 240, "gray");
+    lv_obj_t * brakeSystemActivate = cl_create_indc_bg_activate(lv_scr_act(), 840, "red");
+    // lv_obj_t * checkEngineActivate = cl_create_indc_bg_activate(lv_scr_act(), 650, "green");
+
+    lv_obj_t * highlight = cl_create_indc_highLight(lv_scr_act());
+    lv_obj_t * normallight = cl_create_indc_normalLight(lv_scr_act());
+    lv_obj_t * opendoor = cl_create_indc_openDoor(lv_scr_act());
+    lv_obj_t * seatbelt = cl_create_indc_seatbelt(lv_scr_act());
+    lv_obj_t * batterycharging = cl_create_indc_batteryCharging(lv_scr_act());
+    lv_obj_t * brakeSystem = cl_create_indc_brakeSystem(lv_scr_act());
+    // lv_obj_t * checkEngine = cl_create_indc_checkEngine(lv_scr_act());
+
+
+
+
     // //arc img (gradient)
     // LV_IMG_DECLARE(ring_transparent);
     // lv_obj_t *kkkkk;
@@ -862,4 +1029,85 @@ void lv_cluster(void)
     lv_anim_set_values(&gear, 0, 2);
     lv_anim_set_playback_delay(&gear, 500);
     lv_anim_start(&gear);
+
+
+
+
+
+        // highLight animation
+    lv_anim_t i;
+    lv_anim_init(&i);
+    lv_anim_set_var(&i, highLightActivate);
+    lv_anim_set_exec_cb(&i, cl_indicator_set_off);
+    lv_anim_set_time(&i, 1000);
+    lv_anim_set_repeat_count(&i, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&i, 500);
+    lv_anim_set_values(&i, 0, 1);
+    lv_anim_start(&i);
+
+    // normalLight animation
+    lv_anim_t j;
+    lv_anim_init(&j);
+    lv_anim_set_var(&j, normalLightActivate);
+    lv_anim_set_exec_cb(&j, cl_indicator_set_off);
+    lv_anim_set_time(&j, 1000);
+    lv_anim_set_repeat_count(&j, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&j, 500);
+    lv_anim_set_values(&j, 0, 1);
+    lv_anim_start(&j);
+
+    // charging system animation
+    lv_anim_t k;
+    lv_anim_init(&k);
+    lv_anim_set_var(&k, seatbeltActivate);
+    lv_anim_set_exec_cb(&k, cl_indicator_set_off);
+    lv_anim_set_time(&k, 1000);
+    lv_anim_set_repeat_count(&k, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&k, 500);
+    lv_anim_set_values(&k, 0, 1);
+    lv_anim_start(&k);
+
+    // high coolant animation
+    lv_anim_t l;
+    lv_anim_init(&l);
+    lv_anim_set_var(&l, batteryActivate);
+    lv_anim_set_exec_cb(&l, cl_indicator_set_off);
+    lv_anim_set_time(&l, 1000);
+    lv_anim_set_repeat_count(&l, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&l, 500);
+    lv_anim_set_values(&l, 0, 1);
+    lv_anim_start(&l);
+
+    // brake system animation
+    lv_anim_t m;
+    lv_anim_init(&m);
+    lv_anim_set_var(&m, brakeSystemActivate);
+    lv_anim_set_exec_cb(&m, cl_indicator_set_off);
+    lv_anim_set_time(&m, 1000);
+    lv_anim_set_repeat_count(&m, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&m, 500);
+    lv_anim_set_values(&m, 0, 1);
+    lv_anim_start(&m);
+
+    // i-stop animation
+    lv_anim_t n;
+    lv_anim_init(&n);
+    lv_anim_set_var(&n, openDoorActivate);
+    lv_anim_set_exec_cb(&n, cl_indicator_set_off);
+    lv_anim_set_time(&n, 1000);
+    lv_anim_set_repeat_count(&n, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    lv_anim_set_repeat_delay(&n, 500);
+    lv_anim_set_values(&n, 0, 1);
+    lv_anim_start(&n);
+
+    // check engine animation
+    // lv_anim_t o;
+    // lv_anim_init(&o);
+    // lv_anim_set_var(&o, checkEngineActivate);
+    // lv_anim_set_exec_cb(&o, cl_indicator_set_off);
+    // lv_anim_set_time(&o, 1000);
+    // lv_anim_set_repeat_count(&o, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
+    // lv_anim_set_repeat_delay(&o, 500);
+    // lv_anim_set_values(&o, 0, 1);
+    // lv_anim_start(&o);
 }
