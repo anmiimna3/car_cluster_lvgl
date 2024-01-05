@@ -25,6 +25,9 @@
 #define CLOCK_SHADOW_Y_OFFSET 2
 #define CLOCK_HEIGHT 20
 #define CLOCK_WIDTH 200
+#define BG_TOP_COLOR lv_color_make(28 ,42 ,77)
+#define BG_BOT_COLOR lv_color_make(17 ,30 ,49)
+
 
 // Neon defines
 #define NEON_LINE_WIDTH 10
@@ -280,6 +283,8 @@ static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent)
     lv_obj_t * bg_grad = lv_obj_create(lv_scr_act());
     static lv_style_t bg_grad_style;
     lv_style_init(&bg_grad_style);
+    lv_style_set_outline_width(&bg_grad_style, 0);
+    lv_style_set_border_width(&bg_grad_style, 0);
     lv_style_set_radius(&bg_grad_style, LV_RADIUS_CIRCLE);
     lv_obj_add_style(bg_grad, &bg_grad_style, LV_PART_MAIN);
     lv_style_set_bg_color(&bg_grad_style, cyan);
@@ -295,7 +300,9 @@ static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent)
     static lv_style_t inner_circle_style;
     lv_obj_remove_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
     lv_style_init(&inner_circle_style);
-    lv_style_set_bg_color(&inner_circle_style, lv_palette_main(LV_PALETTE_BLUE_GREY));
+    lv_style_set_outline_width(&inner_circle_style, 0);
+    lv_style_set_border_width(&inner_circle_style, 0);
+    lv_style_set_bg_color(&inner_circle_style, BG_BOT_COLOR);
     lv_obj_add_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
     lv_style_set_radius(&inner_circle_style, LV_RADIUS_CIRCLE);
     lv_obj_center(inner_circle);
@@ -313,7 +320,7 @@ static lv_obj_t * cl_create_speed_arc(lv_obj_t * parent)
     lv_style_init(&style_indic);
     lv_style_set_arc_width(&style_indic, cl_speed_arc_width);
     lv_style_set_arc_rounded(&style_indic, false);
-    lv_style_set_arc_color(&style_indic, lv_palette_main(LV_PALETTE_BLUE_GREY));
+    lv_style_set_arc_color(&style_indic, BG_BOT_COLOR);
 
     lv_obj_t * arc = lv_arc_create(parent);
     lv_obj_remove_style(arc, NULL, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -322,23 +329,23 @@ static lv_obj_t * cl_create_speed_arc(lv_obj_t * parent)
     lv_arc_set_rotation(arc, 500);
     lv_obj_add_style(arc, &style_indic, LV_PART_INDICATOR);
     lv_arc_set_value(arc, 70);
-    lv_obj_set_size(arc, cl_speed_arc_size, cl_speed_arc_size);
+    lv_obj_set_size(arc, cl_speed_arc_size + 5, cl_speed_arc_size + 5);
     lv_obj_center(arc);
     lv_arc_set_value(arc, 100);
     lv_arc_set_mode(arc, LV_ARC_MODE_REVERSE);
 
-    //arc border
-    lv_obj_t * arc_border = lv_obj_create(parent);
-    static lv_style_t arc_border_style;
-    lv_style_init(&arc_border_style);
-    lv_style_set_bg_opa(&arc_border_style, 0);
-    lv_style_set_outline_width(&arc_border_style, 3);
-    lv_style_set_outline_color(&arc_border_style, lv_palette_main(LV_PALETTE_RED));
-    lv_style_set_outline_pad(&arc_border_style, 1);
-    lv_style_set_radius(&arc_border_style, LV_RADIUS_CIRCLE);
-    lv_obj_add_style(arc_border, &arc_border_style, LV_PART_MAIN);
-    lv_obj_set_size(arc_border, cl_speed_arc_size, cl_speed_arc_size);
-    lv_obj_center(arc_border);
+    // //arc border
+    // lv_obj_t * arc_border = lv_obj_create(parent);
+    // static lv_style_t arc_border_style;
+    // lv_style_init(&arc_border_style);
+    // lv_style_set_bg_opa(&arc_border_style, 0);
+    // lv_style_set_outline_width(&arc_border_style, 3);
+    // lv_style_set_outline_color(&arc_border_style, lv_palette_main(LV_PALETTE_RED));
+    // lv_style_set_outline_pad(&arc_border_style, 1);
+    // lv_style_set_radius(&arc_border_style, LV_RADIUS_CIRCLE);
+    // lv_obj_add_style(arc_border, &arc_border_style, LV_PART_MAIN);
+    // lv_obj_set_size(arc_border, cl_speed_arc_size, cl_speed_arc_size);
+    // lv_obj_center(arc_border);
 
 
     //arc counters style
@@ -384,18 +391,18 @@ static lv_obj_t * cl_create_speed_arc(lv_obj_t * parent)
 
 static lv_obj_t * cl_create_speed_label(lv_obj_t * parent)
 {
-    //speed border
-    lv_obj_t * speed_border = lv_obj_create(parent);
-    static lv_style_t speed_border_style;
-    lv_style_init(&speed_border_style);
-    lv_style_set_bg_opa(&speed_border_style, 0);
-    lv_style_set_outline_width(&speed_border_style, 3);
-    lv_style_set_outline_color(&speed_border_style, lv_palette_main(LV_PALETTE_GREEN));
-    lv_style_set_outline_pad(&speed_border_style, 1);
-    lv_style_set_radius(&speed_border_style, LV_RADIUS_CIRCLE);
-    lv_obj_add_style(speed_border, &speed_border_style, LV_PART_MAIN);
-    lv_obj_set_size(speed_border, cl_speed_arc_size / 2, cl_speed_arc_size / 2);
-    lv_obj_center(speed_border);
+    // //speed border
+    // lv_obj_t * speed_border = lv_obj_create(parent);
+    // static lv_style_t speed_border_style;
+    // lv_style_init(&speed_border_style);
+    // lv_style_set_bg_opa(&speed_border_style, 0);
+    // lv_style_set_outline_width(&speed_border_style, 3);
+    // lv_style_set_outline_color(&speed_border_style, lv_palette_main(LV_PALETTE_GREEN));
+    // lv_style_set_outline_pad(&speed_border_style, 1);
+    // lv_style_set_radius(&speed_border_style, LV_RADIUS_CIRCLE);
+    // lv_obj_add_style(speed_border, &speed_border_style, LV_PART_MAIN);
+    // lv_obj_set_size(speed_border, cl_speed_arc_size / 2, cl_speed_arc_size / 2);
+    // lv_obj_center(speed_border);
 
     //speed number
     static lv_style_t speed_style;
@@ -418,22 +425,25 @@ static lv_obj_t * cl_create_power_circle(lv_obj_t * parent)
     lv_obj_t * bg_grad = lv_obj_create(lv_scr_act());
     static lv_style_t bg_grad_style;
     lv_style_init(&bg_grad_style);
+    lv_style_set_border_width(&bg_grad_style, 0);
+    lv_style_set_outline_width(&bg_grad_style, 0);
     lv_style_set_radius(&bg_grad_style, LV_RADIUS_CIRCLE);
-    lv_obj_add_style(bg_grad, &bg_grad_style, LV_PART_MAIN);
-    lv_style_set_bg_color(&bg_grad_style, lv_palette_main(LV_PALETTE_RED));
-    lv_style_set_bg_grad_color(&bg_grad_style, lv_palette_main(LV_PALETTE_YELLOW));
+    lv_style_set_bg_color(&bg_grad_style, lv_palette_darken(LV_PALETTE_RED, 2));
+    lv_style_set_bg_grad_color(&bg_grad_style, lv_palette_lighten(LV_PALETTE_RED, 2));
     lv_style_set_bg_grad_stop(&bg_grad_style, 250);
     lv_style_set_bg_grad_dir(&bg_grad_style, LV_GRAD_DIR_HOR);
     lv_obj_set_size(bg_grad, cl_speed_arc_size, cl_speed_arc_size);
     lv_obj_set_pos(bg_grad, 680, 150);
     lv_obj_clear_flag(bg_grad, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_add_style(bg_grad, &bg_grad_style, LV_PART_MAIN);
 
     // inner circle
     lv_obj_t *inner_circle = lv_obj_create(bg_grad);
     static lv_style_t inner_circle_style;
-    lv_obj_remove_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
     lv_style_init(&inner_circle_style);
-    lv_style_set_bg_color(&inner_circle_style, lv_palette_main(LV_PALETTE_BLUE_GREY));
+    lv_style_set_outline_width(&inner_circle_style, 0);
+    lv_style_set_border_width(&inner_circle_style, 0);
+    lv_style_set_bg_color(&inner_circle_style, BG_BOT_COLOR);
     lv_obj_add_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
     lv_style_set_radius(&inner_circle_style, LV_RADIUS_CIRCLE);
     lv_obj_center(inner_circle);
@@ -450,7 +460,7 @@ static lv_obj_t * cl_create_power_arc(lv_obj_t * parent)
     lv_style_init(&style_indic);
     lv_style_set_arc_width(&style_indic, cl_speed_arc_width);
     lv_style_set_arc_rounded(&style_indic, false);
-    lv_style_set_arc_color(&style_indic, lv_palette_main(LV_PALETTE_BLUE_GREY));
+    lv_style_set_arc_color(&style_indic, BG_BOT_COLOR);
 
     lv_obj_t * arc = lv_arc_create(parent);
     lv_obj_remove_style(arc, NULL, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -458,22 +468,22 @@ static lv_obj_t * cl_create_power_arc(lv_obj_t * parent)
     lv_arc_set_bg_angles(arc, 0, 360);
     lv_arc_set_rotation(arc, 400);
     lv_obj_add_style(arc, &style_indic, LV_PART_INDICATOR);
-    lv_obj_set_size(arc, cl_speed_arc_size, cl_speed_arc_size);
+    lv_obj_set_size(arc, cl_speed_arc_size + 5, cl_speed_arc_size + 5);
     lv_obj_center(arc);
     lv_arc_set_value(arc, 100);
 
-    //arc border
-    lv_obj_t * arc_border = lv_obj_create(parent);
-    static lv_style_t arc_border_style;
-    lv_style_init(&arc_border_style);
-    lv_style_set_bg_opa(&arc_border_style, 0);
-    lv_style_set_outline_width(&arc_border_style, 3);
-    lv_style_set_outline_color(&arc_border_style, lv_palette_main(LV_PALETTE_RED));
-    lv_style_set_outline_pad(&arc_border_style, 1);
-    lv_style_set_radius(&arc_border_style, LV_RADIUS_CIRCLE);
-    lv_obj_add_style(arc_border, &arc_border_style, LV_PART_MAIN);
-    lv_obj_set_size(arc_border, cl_speed_arc_size, cl_speed_arc_size);
-    lv_obj_center(arc_border);
+    // //arc border
+    // lv_obj_t * arc_border = lv_obj_create(parent);
+    // static lv_style_t arc_border_style;
+    // lv_style_init(&arc_border_style);
+    // lv_style_set_bg_opa(&arc_border_style, 0);
+    // lv_style_set_outline_width(&arc_border_style, 3);
+    // lv_style_set_outline_color(&arc_border_style, lv_palette_main(LV_PALETTE_RED));
+    // lv_style_set_outline_pad(&arc_border_style, 1);
+    // lv_style_set_radius(&arc_border_style, LV_RADIUS_CIRCLE);
+    // lv_obj_add_style(arc_border, &arc_border_style, LV_PART_MAIN);
+    // lv_obj_set_size(arc_border, cl_speed_arc_size, cl_speed_arc_size);
+    // lv_obj_center(arc_border);
 
     return arc;
 }
@@ -481,18 +491,18 @@ static lv_obj_t * cl_create_power_arc(lv_obj_t * parent)
 
 static lv_obj_t * cl_create_power_label(lv_obj_t * parent)
 {
-    //power border
-    lv_obj_t * power_border = lv_obj_create(parent);
-    static lv_style_t power_border_style;
-    lv_style_init(&power_border_style);
-    lv_style_set_bg_opa(&power_border_style, 0);
-    lv_style_set_outline_width(&power_border_style, 3);
-    lv_style_set_outline_color(&power_border_style, lv_palette_main(LV_PALETTE_GREEN));
-    lv_style_set_outline_pad(&power_border_style, 1);
-    lv_style_set_radius(&power_border_style, LV_RADIUS_CIRCLE);
-    lv_obj_add_style(power_border, &power_border_style, LV_PART_MAIN);
-    lv_obj_set_size(power_border, cl_speed_arc_size / 2, cl_speed_arc_size / 2);
-    lv_obj_center(power_border);
+    // //power border
+    // lv_obj_t * power_border = lv_obj_create(parent);
+    // static lv_style_t power_border_style;
+    // lv_style_init(&power_border_style);
+    // lv_style_set_bg_opa(&power_border_style, 0);
+    // lv_style_set_outline_width(&power_border_style, 3);
+    // lv_style_set_outline_color(&power_border_style, lv_palette_main(LV_PALETTE_GREEN));
+    // lv_style_set_outline_pad(&power_border_style, 1);
+    // lv_style_set_radius(&power_border_style, LV_RADIUS_CIRCLE);
+    // lv_obj_add_style(power_border, &power_border_style, LV_PART_MAIN);
+    // lv_obj_set_size(power_border, cl_speed_arc_size / 2, cl_speed_arc_size / 2);
+    // lv_obj_center(power_border);
 
     //speed number
     static lv_style_t power_style;
@@ -810,10 +820,12 @@ void cl_draw_background(void)
 {
     static lv_style_t bg_style;
     lv_style_init(&bg_style);
-    lv_style_set_bg_color(&bg_style, lv_palette_main(LV_PALETTE_BLUE_GREY));
-    lv_style_set_bg_grad_color(&bg_style, lv_palette_main(LV_PALETTE_NONE));
-    lv_style_set_bg_grad_dir(&bg_style, LV_GRAD_DIR_HOR);
-    lv_style_set_bg_grad_stop(&bg_style, 450);
+    lv_color_t bg_top_color = BG_TOP_COLOR;
+    lv_color_t bg_bot_color = BG_BOT_COLOR;
+    lv_style_set_bg_color(&bg_style, bg_top_color);
+    lv_style_set_bg_grad_color(&bg_style, bg_bot_color);
+    lv_style_set_bg_grad_dir(&bg_style, LV_GRAD_DIR_VER);
+    lv_style_set_bg_grad_stop(&bg_style, 300);
     lv_obj_add_style(lv_scr_act(), &bg_style, 0);
 }
 
