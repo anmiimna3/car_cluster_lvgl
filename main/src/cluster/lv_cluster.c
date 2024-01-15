@@ -18,40 +18,96 @@
 /*********************
  *      DEFINES
  *********************/
+// Background defines
+#define BG_TOP_COLOR lv_color_make(28 ,42 ,77)
+#define BG_BOT_COLOR lv_color_make(17 ,30 ,49)
+
 // Clock defines
-#define CLOCK_X 43
-#define CLOCK_Y 15
+#ifndef CLOCK
+#define CLOCK
+
+#define CLOCK_X 44
+#define CLOCK_Y 8
 #define CLOCK_SHADOW_X_OFFSET 2
 #define CLOCK_SHADOW_Y_OFFSET 2
 #define CLOCK_HEIGHT 20
 #define CLOCK_WIDTH 200
-#define BG_TOP_COLOR lv_color_make(28 ,42 ,77)
-#define BG_BOT_COLOR lv_color_make(17 ,30 ,49)
+#define CLOCK_COLOR_DEFAULT lv_palette_main(LV_PALETTE_BLUE)
+#define CLOCK_COLOR_ECO lv_palette_main(LV_PALETTE_GREEN)
+#define CLOCK_COLOR_NORMAL lv_palette_main(LV_PALETTE_BLUE)
+#define CLOCK_COLOR_SPORT lv_palette_main(LV_PALETTE_RED)
 
+#endif
 
 // Neon defines
-#define NEON_LINE_WIDTH 10
-#define NEON_UPPER_X_OFFSET 10
-#define NEON_UPPER_Y_OFFSET 30
-#define NEON_UPPER_LEFT_CURVE_POINT {0, 150}
-#define NEON_UPPER_LEFTLINE_FIRST_POINT {100, 0}
-#define NEON_UPPER_LEFTLINE_SECOND_POINT {250, 0}
-#define NEON_UPPER_MIDLINE_FIRST_POINT {350, 60}
-#define NEON_UPPER_MIDLINE_SECOND_POINT {620, 60}
-#define NEON_UPPER_RIGHTLINE_FIRST_POINT {720, 0}
-#define NEON_UPPER_RIGHTLINE_SECOND_POINT {870, 0}
-#define NEON_UPPER_RIGHT_CURVE_POINT {975, 150}
-#define NEON_LOWER_X_OFFSET 10
-#define NEON_LOWER_Y_OFFSET 10
-#define NEON_LOWER_LEFT_CURVE_POINT {0, 0}
-#define NEON_LOWER_LEFTLINE_FIRST_POINT {70, 90}
-#define NEON_LOWER_LEFTLINE_SECOND_POINT {250, 90}
-#define NEON_LOWER_MIDLINE_FIRST_POINT {350, 180}
-#define NEON_LOWER_MIDLINE_SECOND_POINT {620, 180}
-#define NEON_LOWER_RIGHTLINE_FIRST_POINT {720, 90}
-#define NEON_LOWER_RIGHTLINE_SECOND_POINT {910, 90}
-#define NEON_LOWER_RIGHT_CURVE_POINT {975, 0}
+#ifndef NEON
+#define NEON
 
+#define NEON_LINE_WIDTH 10
+#define NEON_COLOR_DEFAULT lv_palette_darken(LV_PALETTE_BLUE, 4)
+#define NEON_COLOR_ECO lv_palette_darken(LV_PALETTE_GREEN, 4)
+#define NEON_COLOR_NORMAL lv_palette_darken(LV_PALETTE_BLUE, 4)
+#define NEON_COLOR_SPORT lv_palette_darken(LV_PALETTE_RED, 4)
+    // Upper Neon
+    #define NEON_UPPER_X_OFFSET 10
+    #define NEON_UPPER_Y_OFFSET 30
+    #define NEON_UPPER_LEFT_CURVE_POINT {0, 150}
+    #define NEON_UPPER_LEFTLINE_FIRST_POINT {100, 0}
+    #define NEON_UPPER_LEFTLINE_SECOND_POINT {250, 0}
+    #define NEON_UPPER_MIDLINE_FIRST_POINT {350, 60}
+    #define NEON_UPPER_MIDLINE_SECOND_POINT {620, 60}
+    #define NEON_UPPER_RIGHTLINE_FIRST_POINT {720, 0}
+    #define NEON_UPPER_RIGHTLINE_SECOND_POINT {870, 0}
+    #define NEON_UPPER_RIGHT_CURVE_POINT {975, 150}
+    // Lower Neon
+    #define NEON_LOWER_X_OFFSET 10
+    #define NEON_LOWER_Y_OFFSET 10
+    #define NEON_LOWER_LEFT_CURVE_POINT {0, 0}
+    #define NEON_LOWER_LEFTLINE_FIRST_POINT {70, 90}
+    #define NEON_LOWER_LEFTLINE_SECOND_POINT {250, 90}
+    #define NEON_LOWER_MIDLINE_FIRST_POINT {350, 180}
+    #define NEON_LOWER_MIDLINE_SECOND_POINT {620, 180}
+    #define NEON_LOWER_RIGHTLINE_FIRST_POINT {720, 90}
+    #define NEON_LOWER_RIGHTLINE_SECOND_POINT {910, 90}
+    #define NEON_LOWER_RIGHT_CURVE_POINT {975, 0}
+
+#endif
+
+// Indicator defines
+#ifndef INDICATORS
+#define INDICATORS
+
+    // Color defines
+    #define INDICATOR_COLOR_LIGHTS_HEADLIGHT lv_palette_darken(LV_PALETTE_BLUE, 3)
+    #define INDICATOR_COLOR_LIGHTS_COMMON lv_palette_darken(LV_PALETTE_GREEN, 1)
+    #define INDICATOR_COLOR_LIGHTS_FOG lv_palette_darken(LV_PALETTE_ORANGE, 1)
+    #define INDICATOR_COLOR_EBRAKE lv_palette_darken(LV_PALETTE_RED, 1)
+    #define INDICATOR_COLOR_ENGINE lv_palette_darken(LV_PALETTE_RED, 1)
+    #define INDICATOR_COLOR_ECO lv_palette_darken(LV_PALETTE_GREEN, 2)
+    #define INDICATOR_COLOR_SEATBELT lv_palette_darken(LV_PALETTE_RED, 1)
+    #define INDICATOR_COLOR_BATTERY_CHARGING lv_palette_darken(LV_PALETTE_GREEN, 2)
+    #define INDICATOR_COLOR_BATTERY_LOW lv_palette_darken(LV_PALETTE_YELLOW, 1)
+    #define INDICATOR_COLOR_BATTERY_WARN lv_palette_darken(LV_PALETTE_RED, 1)
+    #define INDICATOR_COLOR_DOOR lv_palette_darken(LV_PALETTE_YELLOW, 1)
+
+    // Position defines
+    #define INDICATOR_POSITION_EBRAKE_X 115
+    #define INDICATOR_POSITION_EBRAKE_Y 48
+    #define INDICATOR_POSITION_LIGHTS_COMMON_X 260
+    #define INDICATOR_POSITION_LIGHTS_COMMON_Y 45
+    #define INDICATOR_POSITION_LIGHTS_HEADLIGHT_X -260
+    #define INDICATOR_POSITION_LIGHTS_HEADLIGHT_Y 45
+    #define INDICATOR_POSITION_BATTERY_CHARGING_X 60
+    #define INDICATOR_POSITION_BATTERY_CHARGING_Y 53
+    #define INDICATOR_POSITION_ECO_X 0
+    #define INDICATOR_POSITION_ECO_Y 52
+    #define INDICATOR_POSITION_DOOR_X -50
+    #define INDICATOR_POSITION_DOOR_Y 42
+    #define INDICATOR_POSITION_SEATBELT_X -100
+    #define INDICATOR_POSITION_SEATBELT_Y 42
+    
+
+#endif
 
 /**********************
  *  STATIC PROTOTYPES
@@ -73,6 +129,7 @@ static lv_obj_t * cl_create_upper_neon(lv_obj_t * parent);
 static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent);
 static void cl_mask_event_cb(lv_event_t * e);
 static cl_gear_roller_t * cl_create_gear_mode(lv_obj_t * parent);
+static lv_obj_t * cl_create_indicator(lv_obj_t * parent, lv_coord_t x, lv_coord_t y, lv_color_t color, lv_img_dsc_t * picture);
 
 
 /**********************
@@ -92,6 +149,18 @@ static lv_obj_t * Clock;
 static lv_obj_t * Clock_shadow;
 lv_obj_t * uppper_neon;
 lv_obj_t * lower_neon;
+
+/*******************
+ * IMAGES
+********************/
+LV_IMG_DECLARE(EBrake)
+LV_IMG_DECLARE(comLight)
+LV_IMG_DECLARE(headLight)
+LV_IMG_DECLARE(batteryCharging)
+LV_IMG_DECLARE(Eco)
+LV_IMG_DECLARE(Door)
+LV_IMG_DECLARE(seatBelt)
+LV_IMG_DECLARE(car)
 
 
 
@@ -132,148 +201,6 @@ static void cl_indicator_set_off(void * obj, int32_t v)
     lv_obj_set_style_bg_opa(obj, v*255, LV_STATE_DEFAULT);
 }
 
-static lv_obj_t * cl_create_indc_bg(lv_obj_t * parent)
-{
-    static lv_style_t back_ground_style;
-    lv_color_t white = lv_color_make(0, 0, 0);
-    lv_style_init(&back_ground_style);
-    lv_style_set_bg_opa(&back_ground_style, LV_OPA_COVER);
-
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_add_style(back_ground, &back_ground_style, LV_PART_MAIN);
-    lv_obj_set_size(back_ground, 1024, 60);
-    lv_obj_set_pos(back_ground, 0, 0);
-    lv_style_set_bg_color(&back_ground_style, white);
-}
-
-
-static lv_obj_t * cl_create_indc_bg_activate(lv_obj_t * parent, int pos, char* color)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 50, 40);
-    lv_obj_set_pos(back_ground, pos+5, 50);
-
-    if (color == "green")
-        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_GREEN), LV_STATE_DEFAULT);
-    if (color == "blue")
-        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
-    if (color == "gray")
-        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_GREY), LV_STATE_DEFAULT);
-    if (color == "red")
-        lv_obj_set_style_bg_color(back_ground, lv_palette_main(LV_PALETTE_RED), LV_STATE_DEFAULT);
-
-    return back_ground;
-}
-
-static lv_obj_t * cl_create_indc_highLight(lv_obj_t * parent)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 60, 40);
-    lv_obj_set_pos(back_ground, 720, 50);
-
-    LV_IMG_DECLARE(carLight);
-    lv_obj_t * highLight_pic = lv_img_create(back_ground);
-    lv_img_set_src(highLight_pic, &carLight);
-    lv_obj_center(highLight_pic);
-    return back_ground;
-}
-
-static lv_obj_t * cl_create_indc_normalLight(lv_obj_t * parent)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 60, 40);
-    lv_obj_set_pos(back_ground, 120, 50);
-
-    LV_IMG_DECLARE(commonLight);
-    lv_obj_t * commonLight_pic = lv_img_create(back_ground);
-    lv_img_set_src(commonLight_pic, &commonLight);
-    lv_obj_center(commonLight_pic);
-    return back_ground;
-}
-
-static lv_obj_t * cl_create_indc_openDoor(lv_obj_t * parent)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 60, 40);
-    lv_obj_set_pos(back_ground, 180, 50);
-
-    LV_IMG_DECLARE(OpenDoorIndicators);
-    lv_obj_t * openDoor_pic = lv_img_create(back_ground);
-    lv_img_set_src(openDoor_pic, &OpenDoorIndicators);
-    lv_obj_center(openDoor_pic);
-    return back_ground;
-}
-
-static lv_obj_t * cl_create_indc_batteryCharging(lv_obj_t * parent)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 60, 40);
-    lv_obj_set_pos(back_ground, 240, 50);
-
-    LV_IMG_DECLARE(batteryCharging);
-    lv_obj_t * batteryCharging_pic = lv_img_create(back_ground);
-    lv_img_set_src(batteryCharging_pic, &batteryCharging);
-    lv_obj_center(batteryCharging_pic);
-    // lv_obj_set_style_opa(batteryCharging_pic, LV_OPA_30, LV_STATE_DEFAULT);
-    return back_ground;
-}
-
-static lv_obj_t * cl_create_indc_seatbelt(lv_obj_t * parent)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 60, 40);
-    lv_obj_set_pos(back_ground, 780, 50);
-
-    LV_IMG_DECLARE(seatbelt);
-    lv_obj_t * seatBelt_pic = lv_img_create(back_ground);
-    lv_img_set_src(seatBelt_pic, &seatbelt);
-    lv_obj_center(seatBelt_pic);
-    return back_ground;
-}
-
-static lv_obj_t * cl_create_indc_brakeSystem(lv_obj_t * parent)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 60, 40);
-    lv_obj_set_pos(back_ground, 840, 50);
-
-    LV_IMG_DECLARE(handbreak);
-    lv_obj_t * handBreak_pic = lv_img_create(back_ground);
-    lv_img_set_src(handBreak_pic, &handbreak);
-    lv_obj_center(handBreak_pic);
-    return back_ground;
-}
-
-static lv_obj_t * cl_create_indc_checkEngine(lv_obj_t * parent)
-{
-    lv_obj_t * back_ground = lv_obj_create(lv_scr_act());
-    lv_obj_clear_flag(back_ground, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_remove_style_all(back_ground);
-    lv_obj_set_size(back_ground, 60, 40);
-    lv_obj_set_pos(back_ground, 650, 10);
-
-    LV_IMG_DECLARE(rightBlinker);
-    lv_obj_t * highLight_pic = lv_img_create(back_ground);
-    lv_img_set_src(highLight_pic, &rightBlinker);
-    lv_obj_center(highLight_pic);
-    return back_ground;
-}
 
 // creating the speed arc and returns the base obj pointer
 static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent)
@@ -547,8 +474,6 @@ static lv_obj_t * cl_create_middle_part(lv_obj_t * parent)
     lv_line_set_points(line2, line_points2, 2);
     lv_obj_add_style(line2, &style_line, LV_PART_MAIN);
 
-
-    LV_IMG_DECLARE(car);
     lv_obj_t * car_pic = lv_img_create(back_ground);
     lv_img_set_src(car_pic, &car);
     lv_obj_center(car_pic);
@@ -629,7 +554,7 @@ static lv_obj_t * cl_create_clock(lv_obj_t * parent){
     static lv_style_t style;
     lv_style_init(&style);
     lv_style_set_bg_opa(&style, 0);
-    lv_style_set_text_color(&style, lv_palette_main(LV_PALETTE_BLUE));
+    lv_style_set_text_color(&style, CLOCK_COLOR_DEFAULT);
     lv_style_set_text_font(&style, &lv_font_montserrat_28);
 
     Clock_shadow = lv_label_create(parent);
@@ -676,7 +601,7 @@ static lv_obj_t * cl_create_upper_neon(lv_obj_t * parent)
     static lv_style_t style, *style_line = &style;
     lv_style_init(style_line);
     lv_style_set_line_width(style_line, NEON_LINE_WIDTH);
-    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_RED, 4));
+    lv_style_set_line_color(style_line, NEON_COLOR_DEFAULT);
     lv_style_set_line_rounded(style_line, true);
 
     static lv_point_t line_points[] = { NEON_UPPER_LEFT_CURVE_POINT,
@@ -709,7 +634,7 @@ static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent)
     static lv_style_t style, *style_line = &style;
     lv_style_init(style_line);
     lv_style_set_line_width(style_line, NEON_LINE_WIDTH);
-    lv_style_set_line_color(style_line, lv_palette_darken(LV_PALETTE_RED, 4));
+    lv_style_set_line_color(style_line, NEON_COLOR_DEFAULT);
     lv_style_set_line_rounded(style_line, true);
 
     static lv_point_t line_points[] = {NEON_LOWER_LEFT_CURVE_POINT,
@@ -725,6 +650,42 @@ static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent)
     return back_ground;
 }
 
+void indicator_animation(lv_timer_t *timer)
+{
+    // Function to change indicator's current animation
+    static bool state = false;
+    state = !state;
+    lv_obj_set_style_bg_opa(timer->user_data, (state) ? LV_OPA_COVER : LV_OPA_TRANSP, LV_PART_MAIN);
+}
+
+static lv_obj_t * cl_create_indicator(lv_obj_t * parent, lv_coord_t x, lv_coord_t y, lv_color_t color, lv_img_dsc_t * picture)
+// Function to create indicators on a solid transparent rectangle which alligns to top mid by default
+{
+    static lv_style_t background_style;
+    lv_style_init(&background_style);
+    lv_style_set_bg_color(&background_style, lv_color_white());
+    lv_style_set_bg_opa(&background_style, LV_OPA_TRANSP);
+    // the following are for testing
+    lv_style_set_bg_opa(&background_style, LV_OPA_100);
+    // lv_style_set_border_color(&background_style, lv_color_white());
+    // lv_style_set_border_width(&background_style, 1);
+    
+    lv_obj_t * background = lv_obj_create(parent);
+    lv_obj_clear_flag(background, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_remove_style_all(background);
+    lv_obj_add_style(background, &background_style, LV_PART_MAIN);
+    lv_obj_set_size(background, picture->header.w, picture->header.h);
+    lv_obj_align_to(background, NULL, LV_ALIGN_TOP_MID, x, y);
+
+    lv_obj_t * icon = lv_img_create(background);
+    lv_img_set_src(icon, picture);
+    lv_obj_center(icon);
+    lv_obj_set_style_bg_color(background, color, LV_PART_MAIN);
+
+    lv_timer_create(indicator_animation, 500 + rand()%500, background);
+    return background;
+}
+
 static void cl_mask_event_cb(lv_event_t * e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -736,18 +697,18 @@ static void cl_mask_event_cb(lv_event_t * e)
     {
     case 0:
         text_color = lv_palette_main(LV_PALETTE_GREEN);
-        clock_color = text_color;
-        neon_color = lv_palette_darken(LV_PALETTE_GREEN, 4);
+        clock_color = CLOCK_COLOR_ECO;
+        neon_color = NEON_COLOR_ECO;
         break;
     case 1:
         text_color = lv_palette_main(LV_PALETTE_RED);
-        clock_color = text_color;
-        neon_color = lv_palette_darken(LV_PALETTE_RED, 4);
+        clock_color = CLOCK_COLOR_SPORT;
+        neon_color = NEON_COLOR_SPORT;
         break;
     case 2:
         text_color = lv_palette_lighten(LV_PALETTE_RED, 5);
-        clock_color = lv_palette_main(LV_PALETTE_BLUE);
-        neon_color = lv_palette_darken(LV_PALETTE_BLUE, 4);
+        clock_color = CLOCK_COLOR_NORMAL;
+        neon_color = NEON_COLOR_NORMAL;
         break;
     default:
         break;
@@ -857,25 +818,13 @@ void lv_cluster(void)
     cl_create_clock(lv_scr_act());
     cl_gear_roller_t * gear_parts = cl_create_gear_mode(lv_scr_act());
 
-
-        lv_obj_t * highLightActivate = cl_create_indc_bg_activate(lv_scr_act(), 720, "blue");
-    lv_obj_t * normalLightActivate = cl_create_indc_bg_activate(lv_scr_act(), 120, "green");
-    lv_obj_t * openDoorActivate = cl_create_indc_bg_activate(lv_scr_act(), 180, "gray");
-    lv_obj_t * seatbeltActivate = cl_create_indc_bg_activate(lv_scr_act(), 780, "red");
-    lv_obj_t * batteryActivate = cl_create_indc_bg_activate(lv_scr_act(), 240, "gray");
-    lv_obj_t * brakeSystemActivate = cl_create_indc_bg_activate(lv_scr_act(), 840, "red");
-    // lv_obj_t * checkEngineActivate = cl_create_indc_bg_activate(lv_scr_act(), 650, "green");
-
-    lv_obj_t * highlight = cl_create_indc_highLight(lv_scr_act());
-    lv_obj_t * normallight = cl_create_indc_normalLight(lv_scr_act());
-    lv_obj_t * opendoor = cl_create_indc_openDoor(lv_scr_act());
-    lv_obj_t * seatbelt = cl_create_indc_seatbelt(lv_scr_act());
-    lv_obj_t * batterycharging = cl_create_indc_batteryCharging(lv_scr_act());
-    lv_obj_t * brakeSystem = cl_create_indc_brakeSystem(lv_scr_act());
-    // lv_obj_t * checkEngine = cl_create_indc_checkEngine(lv_scr_act());
-
-
-
+    lv_obj_t * indicator_emergency_break = cl_create_indicator(lv_scr_act(), INDICATOR_POSITION_EBRAKE_X, INDICATOR_POSITION_EBRAKE_Y, INDICATOR_COLOR_EBRAKE, &EBrake);
+    lv_obj_t * indicator_lights_common = cl_create_indicator(lv_scr_act(), INDICATOR_POSITION_LIGHTS_COMMON_X, INDICATOR_POSITION_LIGHTS_COMMON_Y, INDICATOR_COLOR_LIGHTS_COMMON, &comLight);
+    lv_obj_t * indicator_lights_headlight = cl_create_indicator(lv_scr_act(), INDICATOR_POSITION_LIGHTS_HEADLIGHT_X, INDICATOR_POSITION_LIGHTS_HEADLIGHT_Y, INDICATOR_COLOR_LIGHTS_HEADLIGHT, &headLight);
+    lv_obj_t * indicator_battery_charging = cl_create_indicator(lv_scr_act(), INDICATOR_POSITION_BATTERY_CHARGING_X, INDICATOR_POSITION_BATTERY_CHARGING_Y, INDICATOR_COLOR_BATTERY_CHARGING, &batteryCharging);
+    lv_obj_t * indicator_eco = cl_create_indicator(lv_scr_act(), INDICATOR_POSITION_ECO_X, INDICATOR_POSITION_ECO_Y, INDICATOR_COLOR_ECO, &Eco);
+    lv_obj_t * indicator_door = cl_create_indicator(lv_scr_act(), INDICATOR_POSITION_DOOR_X, INDICATOR_POSITION_DOOR_Y, INDICATOR_COLOR_DOOR, &Door);
+    lv_obj_t * indicator_seatbelt = cl_create_indicator(lv_scr_act(), INDICATOR_POSITION_SEATBELT_X, INDICATOR_POSITION_SEATBELT_Y, INDICATOR_COLOR_SEATBELT, &seatBelt);
 
     // //arc img (gradient)
     // LV_IMG_DECLARE(ring_transparent);
@@ -1041,85 +990,4 @@ void lv_cluster(void)
     lv_anim_set_values(&gear, 0, 2);
     lv_anim_set_playback_delay(&gear, 500);
     lv_anim_start(&gear);
-
-
-
-
-
-        // highLight animation
-    lv_anim_t i;
-    lv_anim_init(&i);
-    lv_anim_set_var(&i, highLightActivate);
-    lv_anim_set_exec_cb(&i, cl_indicator_set_off);
-    lv_anim_set_time(&i, 1000);
-    lv_anim_set_repeat_count(&i, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
-    lv_anim_set_repeat_delay(&i, 500);
-    lv_anim_set_values(&i, 0, 1);
-    lv_anim_start(&i);
-
-    // normalLight animation
-    lv_anim_t j;
-    lv_anim_init(&j);
-    lv_anim_set_var(&j, normalLightActivate);
-    lv_anim_set_exec_cb(&j, cl_indicator_set_off);
-    lv_anim_set_time(&j, 1000);
-    lv_anim_set_repeat_count(&j, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
-    lv_anim_set_repeat_delay(&j, 500);
-    lv_anim_set_values(&j, 0, 1);
-    lv_anim_start(&j);
-
-    // charging system animation
-    lv_anim_t k;
-    lv_anim_init(&k);
-    lv_anim_set_var(&k, seatbeltActivate);
-    lv_anim_set_exec_cb(&k, cl_indicator_set_off);
-    lv_anim_set_time(&k, 1000);
-    lv_anim_set_repeat_count(&k, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
-    lv_anim_set_repeat_delay(&k, 500);
-    lv_anim_set_values(&k, 0, 1);
-    lv_anim_start(&k);
-
-    // high coolant animation
-    lv_anim_t l;
-    lv_anim_init(&l);
-    lv_anim_set_var(&l, batteryActivate);
-    lv_anim_set_exec_cb(&l, cl_indicator_set_off);
-    lv_anim_set_time(&l, 1000);
-    lv_anim_set_repeat_count(&l, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
-    lv_anim_set_repeat_delay(&l, 500);
-    lv_anim_set_values(&l, 0, 1);
-    lv_anim_start(&l);
-
-    // brake system animation
-    lv_anim_t m;
-    lv_anim_init(&m);
-    lv_anim_set_var(&m, brakeSystemActivate);
-    lv_anim_set_exec_cb(&m, cl_indicator_set_off);
-    lv_anim_set_time(&m, 1000);
-    lv_anim_set_repeat_count(&m, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
-    lv_anim_set_repeat_delay(&m, 500);
-    lv_anim_set_values(&m, 0, 1);
-    lv_anim_start(&m);
-
-    // i-stop animation
-    lv_anim_t n;
-    lv_anim_init(&n);
-    lv_anim_set_var(&n, openDoorActivate);
-    lv_anim_set_exec_cb(&n, cl_indicator_set_off);
-    lv_anim_set_time(&n, 1000);
-    lv_anim_set_repeat_count(&n, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
-    lv_anim_set_repeat_delay(&n, 500);
-    lv_anim_set_values(&n, 0, 1);
-    lv_anim_start(&n);
-
-    // check engine animation
-    // lv_anim_t o;
-    // lv_anim_init(&o);
-    // lv_anim_set_var(&o, checkEngineActivate);
-    // lv_anim_set_exec_cb(&o, cl_indicator_set_off);
-    // lv_anim_set_time(&o, 1000);
-    // lv_anim_set_repeat_count(&o, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
-    // lv_anim_set_repeat_delay(&o, 500);
-    // lv_anim_set_values(&o, 0, 1);
-    // lv_anim_start(&o);
 }
