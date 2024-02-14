@@ -37,5 +37,6 @@ typedef struct{
  */
 
 cl_gear_roller_t * cl_gear_roller_create(lv_obj_t *, lv_coord_t, lv_coord_t);
+void cl_gear_roller_set_selected(cl_gear_roller_t *, int);
 
-#endif CL_GEAR_ROLLER_H
+#endif

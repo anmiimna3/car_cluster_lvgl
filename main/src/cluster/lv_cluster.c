@@ -19,8 +19,12 @@
  *      DEFINES
  *********************/
 // Background defines
-#define BG_TOP_COLOR lv_color_make(28 ,42 ,77)
-#define BG_BOT_COLOR lv_color_make(17 ,30 ,49)
+#define BG_TOP_COLOR_NORMAL lv_color_make(28, 42, 77)
+#define BG_BOT_COLOR_NORMAL lv_color_make(17, 30, 49)
+#define BG_TOP_COLOR_SPORT lv_color_make(209, 102, 99)
+#define BG_BOT_COLOR_SPORT lv_color_make(173, 63, 60)
+#define BG_TOP_COLOR_ECO lv_color_make(48, 80, 49)
+#define BG_BOT_COLOR_ECO lv_color_make(21, 54, 23)
 
 // Clock defines
 #ifndef CLOCK
@@ -130,13 +134,13 @@ static lv_obj_t * cl_create_lower_neon(lv_obj_t * parent);
 static void cl_mask_event_cb(lv_event_t * e);
 static cl_gear_roller_t * cl_create_gear_mode(lv_obj_t * parent);
 static lv_obj_t * cl_create_indicator(lv_obj_t * parent, lv_coord_t x, lv_coord_t y, lv_color_t color, lv_img_dsc_t * picture);
+void indicator_animation(lv_timer_t *timer);
 
 
 /**********************
  * TODO
  **********************/
-static lv_obj_t * cl_create_line_animation(lv_obj_t * parent);
-static lv_obj_t * cl_create_driving_mode(lv_obj_t * parent);
+// static lv_obj_t * cl_create_line_animation(lv_obj_t * parent);
 
 
 /**********************
@@ -168,7 +172,7 @@ LV_IMG_DECLARE(car)
  *   GLOBAL FUNCTIONS
  **********************/
 
-static void cl_chage_gear(void *obj, int32_t v)
+static void cl_change_gear(void *obj, int32_t v)
 {
     cl_gear_roller_set_selected(obj, v);
 }
@@ -229,7 +233,7 @@ static lv_obj_t * cl_create_speed_circle(lv_obj_t * parent)
     lv_style_init(&inner_circle_style);
     lv_style_set_outline_width(&inner_circle_style, 0);
     lv_style_set_border_width(&inner_circle_style, 0);
-    lv_style_set_bg_color(&inner_circle_style, BG_BOT_COLOR);
+    lv_style_set_bg_color(&inner_circle_style, BG_BOT_COLOR_NORMAL);
     lv_obj_add_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
     lv_style_set_radius(&inner_circle_style, LV_RADIUS_CIRCLE);
     lv_obj_center(inner_circle);
@@ -247,7 +251,7 @@ static lv_obj_t * cl_create_speed_arc(lv_obj_t * parent)
     lv_style_init(&style_indic);
     lv_style_set_arc_width(&style_indic, cl_speed_arc_width);
     lv_style_set_arc_rounded(&style_indic, false);
-    lv_style_set_arc_color(&style_indic, BG_BOT_COLOR);
+    lv_style_set_arc_color(&style_indic, BG_BOT_COLOR_NORMAL);
 
     lv_obj_t * arc = lv_arc_create(parent);
     lv_obj_remove_style(arc, NULL, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -260,6 +264,7 @@ static lv_obj_t * cl_create_speed_arc(lv_obj_t * parent)
     lv_obj_center(arc);
     lv_arc_set_value(arc, 100);
     lv_arc_set_mode(arc, LV_ARC_MODE_REVERSE);
+    lv_obj_clear_flag(arc, LV_OBJ_FLAG_CLICKABLE);
 
     // //arc border
     // lv_obj_t * arc_border = lv_obj_create(parent);
@@ -370,7 +375,7 @@ static lv_obj_t * cl_create_power_circle(lv_obj_t * parent)
     lv_style_init(&inner_circle_style);
     lv_style_set_outline_width(&inner_circle_style, 0);
     lv_style_set_border_width(&inner_circle_style, 0);
-    lv_style_set_bg_color(&inner_circle_style, BG_BOT_COLOR);
+    lv_style_set_bg_color(&inner_circle_style, BG_BOT_COLOR_NORMAL);
     lv_obj_add_style(inner_circle, &inner_circle_style, LV_PART_MAIN);
     lv_style_set_radius(&inner_circle_style, LV_RADIUS_CIRCLE);
     lv_obj_center(inner_circle);
@@ -387,7 +392,7 @@ static lv_obj_t * cl_create_power_arc(lv_obj_t * parent)
     lv_style_init(&style_indic);
     lv_style_set_arc_width(&style_indic, cl_speed_arc_width);
     lv_style_set_arc_rounded(&style_indic, false);
-    lv_style_set_arc_color(&style_indic, BG_BOT_COLOR);
+    lv_style_set_arc_color(&style_indic, BG_BOT_COLOR_NORMAL);
 
     lv_obj_t * arc = lv_arc_create(parent);
     lv_obj_remove_style(arc, NULL, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -398,6 +403,7 @@ static lv_obj_t * cl_create_power_arc(lv_obj_t * parent)
     lv_obj_set_size(arc, cl_speed_arc_size + 5, cl_speed_arc_size + 5);
     lv_obj_center(arc);
     lv_arc_set_value(arc, 100);
+    lv_obj_clear_flag(arc, LV_OBJ_FLAG_CLICKABLE);
 
     // //arc border
     // lv_obj_t * arc_border = lv_obj_create(parent);
@@ -666,7 +672,7 @@ static lv_obj_t * cl_create_indicator(lv_obj_t * parent, lv_coord_t x, lv_coord_
     lv_style_set_bg_color(&background_style, lv_color_white());
     lv_style_set_bg_opa(&background_style, LV_OPA_TRANSP);
     // the following are for testing
-    lv_style_set_bg_opa(&background_style, LV_OPA_100);
+    // lv_style_set_bg_opa(&background_style, LV_OPA_100);
     // lv_style_set_border_color(&background_style, lv_color_white());
     // lv_style_set_border_width(&background_style, 1);
     
@@ -691,7 +697,7 @@ static void cl_mask_event_cb(lv_event_t * e)
     lv_event_code_t code = lv_event_get_code(e);
     lv_obj_t * obj = lv_event_get_target(e);
 
-    lv_color_t text_color, neon_color, clock_color;
+    lv_color_t text_color, neon_color, clock_color, bg_top_color, bg_bot_color;
     int selected = lv_roller_get_selected(obj);
     switch (selected)
     {
@@ -699,20 +705,27 @@ static void cl_mask_event_cb(lv_event_t * e)
         text_color = lv_palette_main(LV_PALETTE_GREEN);
         clock_color = CLOCK_COLOR_ECO;
         neon_color = NEON_COLOR_ECO;
+        bg_top_color = BG_TOP_COLOR_ECO;
+        bg_bot_color = BG_BOT_COLOR_ECO;
         break;
     case 1:
         text_color = lv_palette_main(LV_PALETTE_RED);
         clock_color = CLOCK_COLOR_SPORT;
         neon_color = NEON_COLOR_SPORT;
+        bg_top_color = BG_TOP_COLOR_SPORT;
+        bg_bot_color = BG_BOT_COLOR_SPORT;
         break;
     case 2:
         text_color = lv_palette_lighten(LV_PALETTE_RED, 5);
         clock_color = CLOCK_COLOR_NORMAL;
         neon_color = NEON_COLOR_NORMAL;
+        bg_top_color = BG_TOP_COLOR_NORMAL;
+        bg_bot_color = BG_BOT_COLOR_NORMAL;
         break;
     default:
         break;
     }
+    // cl_redraw_background(bg_top_color, bg_bot_color);
     lv_obj_set_style_text_color(obj, text_color, LV_PART_MAIN);
     lv_obj_set_style_line_color(uppper_neon, neon_color, LV_PART_MAIN);
     lv_obj_set_style_line_color(lower_neon, neon_color, LV_PART_MAIN);
@@ -777,12 +790,10 @@ static cl_gear_roller_t * cl_create_gear_mode(lv_obj_t * parent)
 
 
 // setting background color and gradient
-void cl_draw_background(void)
+static void cl_draw_background(lv_color_t bg_top_color, lv_color_t bg_bot_color)
 {
     static lv_style_t bg_style;
     lv_style_init(&bg_style);
-    lv_color_t bg_top_color = BG_TOP_COLOR;
-    lv_color_t bg_bot_color = BG_BOT_COLOR;
     lv_style_set_bg_color(&bg_style, bg_top_color);
     lv_style_set_bg_grad_color(&bg_style, bg_bot_color);
     lv_style_set_bg_grad_dir(&bg_style, LV_GRAD_DIR_VER);
@@ -790,12 +801,21 @@ void cl_draw_background(void)
     lv_obj_add_style(lv_scr_act(), &bg_style, 0);
 }
 
+static void cl_redraw_background(lv_color_t bg_top_color, lv_color_t bg_bot_color)
+{
+    lv_obj_set_style_bg_color(lv_scr_act(), bg_top_color, LV_PART_MAIN);
+    lv_obj_set_style_bg_grad_color(lv_scr_act(), bg_bot_color, LV_PART_MAIN);
+    lv_obj_set_style_bg_grad_dir(lv_scr_act(), LV_GRAD_DIR_VER, LV_PART_MAIN);
+    lv_obj_set_style_bg_grad_stop(lv_scr_act(), 300, LV_PART_MAIN);
+}
+
+
 
 
 void lv_cluster(void)
 {
     //background
-    cl_draw_background();
+    cl_draw_background(BG_TOP_COLOR_NORMAL, BG_BOT_COLOR_NORMAL);
 
     //arc gradient
     lv_obj_t * speed_bg = cl_create_speed_circle(lv_scr_act());
@@ -983,7 +1003,7 @@ void lv_cluster(void)
     lv_anim_t gear;
     lv_anim_init(&gear);
     lv_anim_set_var(&gear, gear_parts);
-    lv_anim_set_exec_cb(&gear, cl_chage_gear);
+    lv_anim_set_exec_cb(&gear, cl_change_gear);
     lv_anim_set_time(&gear, 6000);
     lv_anim_set_repeat_count(&gear, LV_ANIM_REPEAT_INFINITE);    /*Just for the demo*/
     lv_anim_set_repeat_delay(&gear, 0);
